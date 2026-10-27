@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testprøve 2 · Tall, algebra og funksjoner</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/quiz.js"></script>
+<script>
+/* Figurer */
+const S = 34;
+function fyr(n, x0) {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const x = x0 + i * S;
+    s += `<line x1="${x}" y1="12" x2="${x + S}" y2="12"/><line x1="${x}" y1="${12 + S}" x2="${x + S}" y2="${12 + S}"/>`;
+  }
+  for (let i = 0; i <= n; i++) {
+    const x = x0 + i * S;
+    s += `<line x1="${x}" y1="12" x2="${x}" y2="${12 + S}"/>`;
+  }
+  return s;
+}
+const fyrSvg = `<figure><svg viewBox="0 0 330 92" role="img" aria-label="Tre figurer laget av fyrstikker: ett, to og tre kvadrater på rad">
+<g stroke="var(--accent)" stroke-width="5" stroke-linecap="round">${fyr(1, 10)}${fyr(2, 80)}${fyr(3, 180)}</g>
+<g fill="currentColor" font-size="13" font-weight="700" text-anchor="middle">
+<text x="27" y="82">Figur 1</text><text x="114" y="82">Figur 2</text><text x="231" y="82">Figur 3</text></g></svg></figure>`;
+
+const gx = h => 50 + h * (290 / 6), gy = k => 220 - k * 0.5;
+let g = "";
+for (let k = 0; k <= 400; k += 100) g += `<line x1="50" y1="${gy(k)}" x2="340" y2="${gy(k)}" stroke="var(--line)" stroke-width="1"/><text x="44" y="${gy(k) + 4}" text-anchor="end" font-size="11" fill="currentColor">${k}</text>`;
+for (let h = 0; h <= 6; h++) g += `<line x1="${gx(h)}" y1="20" x2="${gx(h)}" y2="220" stroke="var(--line)" stroke-width="1"/><text x="${gx(h)}" y="236" text-anchor="middle" font-size="11" fill="currentColor">${h}</text>`;
+let dots = "";
+for (let h = 0; h <= 6; h++) dots += `<circle cx="${gx(h)}" cy="${gy(100 + 50 * h)}" r="4" fill="var(--accent)"/>`;
+const grafSvg = `<figure><svg viewBox="0 0 360 262" role="img" aria-label="Graf som viser pris for sykkelleie: 100 kr ved 0 timer, stigende til 400 kr ved 6 timer">
+${g}
+<line x1="50" y1="220" x2="340" y2="220" stroke="currentColor" stroke-width="2"/><line x1="50" y1="20" x2="50" y2="220" stroke="currentColor" stroke-width="2"/>
+<line x1="${gx(0)}" y1="${gy(100)}" x2="${gx(6)}" y2="${gy(400)}" stroke="var(--accent)" stroke-width="3"/>${dots}
+<text x="4" y="12" font-size="12" font-weight="700" fill="currentColor">Pris (kr)</text>
+<text x="195" y="256" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">Timer</text></svg></figure>`;
+
+const kode = `<pre>x = 2
+for i in range(3):
+    x = x * 2
+print(x)</pre>`;
+
+quiz({
+  title: "Testprøve 2 · Tall, algebra og funksjoner",
+  sub: "Matematikk 8. trinn · flervalg · ingen hjelpemidler",
+  back: "../",
+  figs: { fyr: fyrSvg, graf: grafSvg, kode: kode },
+  goals: {
+    pot: "Regne med potenser og kvadratrøtter",
+    fak: "Faktorisering og primtallsfaktorisering i brøkregning",
+    reg: "Regneregler i hoderegning (distributiv lov)",
+    mon: "Utforske og generalisere mønstre",
+    utt: "Regneuttrykk i praktiske situasjoner",
+    lik: "Likninger i praktiske situasjoner",
+    ulik: "Ulikheter",
+    fun: "Funksjoner og representasjoner (tabell, graf, uttrykk)",
+    prog: "Programmering og algoritmer"
+  },
+  questions: [
+    { t: "Potenser", g: "pot", q: "Regn ut 2<sup>3</sup> + 3<sup>2</sup>.",
+      o: ["17", "12", "25", "36"], a: 0,
+      e: "2<sup>3</sup> = 2·2·2 = 8 og 3<sup>2</sup> = 3·3 = 9. Til sammen 17." },
+    { t: "Kvadratrøtter", g: "pot", q: "Regn ut √144 − 2<sup>3</sup>.",
+      o: ["4", "10", "16", "2"], a: 0,
+      e: "√144 = 12 fordi 12·12 = 144. 2<sup>3</sup> = 8. Da er 12 − 8 = 4." },
+    { t: "Kvadratrøtter", g: "pot", q: "Mellom hvilke to heltall ligger √50?",
+      o: ["7 og 8", "6 og 7", "24 og 26", "25 og 50"], a: 0,
+      e: "7·7 = 49 og 8·8 = 64. Siden 50 ligger mellom 49 og 64, ligger √50 mellom 7 og 8 (litt over 7)." },
+    { t: "Primtallsfaktorisering", g: "fak", q: "Hvilken primtallsfaktorisering er riktig for 60?",
+      o: ["2<sup>2</sup> · 3 · 5", "2 · 3 · 10", "2 · 5 · 6", "3 · 4 · 5"], a: 0,
+      e: "60 = 2·30 = 2·2·15 = 2·2·3·5. Alle faktorene må være primtall; 10, 6 og 4 er ikke det." },
+    { t: "Primtall i brøkregning", g: "fak", q: `Forkort ${F(36, 48)} mest mulig. Tips: 36 = 2<sup>2</sup>·3<sup>2</sup> og 48 = 2<sup>4</sup>·3.`,
+      o: [F(3, 4), F(6, 8), F(2, 3), F(4, 5)], a: 0,
+      e: `Felles faktorer er 2·2·3 = 12. 36 : 12 = 3 og 48 : 12 = 4, så svaret er ${F(3, 4)}. ${F(6, 8)} er lik, men kan forkortes mer.` },
+    { t: "Regneregler", g: "reg", q: "Hvilken utregning er en lur måte å regne 7 · 28 i hodet på?",
+      o: ["7 · 30 − 7 · 2", "7 · 30 − 2", "7 · 20 + 8", "7 + 28"], a: 0,
+      e: "Distributiv lov: 7·(30 − 2) = 7·30 − 7·2 = 210 − 14 = 196." },
+    { t: "Mønstre", g: "mon", fig: "fyr", q: "Figurene er laget av fyrstikker. Hvor mange fyrstikker trenger du til figur 10?",
+      o: ["31", "30", "40", "28"], a: 0,
+      e: "Figur 1 har 4, figur 2 har 7, figur 3 har 10. Det blir 3 flere for hver figur: 4 + 9·3 = 31." },
+    { t: "Mønstre", g: "mon", fig: "fyr", q: "Hvilket uttrykk gir antall fyrstikker i figur n?",
+      o: ["3n + 1", "n + 3", "4n", "3n − 1"], a: 0,
+      e: "Hver kvadrat trenger 3 nye fyrstikker, pluss 1 til å starte. Sjekk: n = 1 gir 4, n = 2 gir 7, n = 3 gir 10." },
+    { t: "Regneuttrykk", g: "utt", q: "En taxi tar 50 kr i startpris og 20 kr per kilometer. Hvilket uttrykk gir prisen for x kilometer?",
+      o: ["50 + 20x", "70x", "50x + 20", "20 + 50x"], a: 0,
+      e: "Startprisen er fast (50). Kilometerprisen ganges med antall kilometer (20·x). Altså 50 + 20x." },
+    { t: "Likninger", g: "lik", q: "Mia kjøpte tre like skjorter og en caps til 50 kr. Hun betalte 290 kr til sammen. Hva kostet én skjorte?",
+      o: ["80 kr", "70 kr", "97 kr", "240 kr"], a: 0,
+      e: "Likning: 3x + 50 = 290. Trekk fra 50: 3x = 240. Del på 3: x = 80. Sjekk: 3·80 + 50 = 290." },
+    { t: "Likninger", g: "lik", q: "Løs likningen 4x − 7 = 21.",
+      o: ["x = 7", "x = 6", "x = 8", "x = 14"], a: 0,
+      e: "Legg til 7 på begge sider: 4x = 28. Del på 4: x = 7. Test: 4·7 − 7 = 21." },
+    { t: "Ulikheter", g: "ulik", q: "Løs ulikheten 2x + 3 &gt; 11.",
+      o: ["x &gt; 4", "x ≥ 4", "x &lt; 4", "x &gt; 7"], a: 0,
+      e: "Trekk fra 3: 2x &gt; 8. Del på 2: x &gt; 4. x = 4 er ikke en løsning, for 2·4 + 3 = 11, og 11 er ikke større enn 11." },
+    { t: "Funksjoner", g: "fun", fig: "graf", q: "Grafen viser prisen (kr) for å leie en sykkel i x timer. Hvilket uttrykk passer til grafen?",
+      o: ["100 + 50x", "50 + 100x", "150x", "100x + 50"], a: 0,
+      e: "Grafen starter på 100 kr ved 0 timer (fast pris) og stiger 50 kr for hver time. Pris = 100 + 50x." },
+    { t: "Funksjoner", g: "fun", fig: "graf", q: "Hvor mange timer kan du leie sykkelen for 250 kr?",
+      o: ["3 timer", "2 timer", "4 timer", "5 timer"], a: 0,
+      e: "Les av grafen ved 250 kr: 3 timer. Sjekk med uttrykket: 100 + 50·3 = 250." },
+    { t: "Funksjoner", g: "fun", q: "En funksjon er gitt ved f(x) = 3x − 2. Hva er f(4)?",
+      o: ["10", "6", "14", "12"], a: 0,
+      e: "Sett inn x = 4: f(4) = 3·4 − 2 = 12 − 2 = 10." },
+    { t: "Programmering", g: "prog", fig: "kode", q: "Hva skriver programmet ut?",
+      o: ["16", "8", "12", "6"], a: 0,
+      e: "Løkka går 3 ganger og dobler x hver gang: 2 → 4 → 8 → 16. print skriver ut 16." }
+  ]
+});
+</script>
+</body>
+</html>
