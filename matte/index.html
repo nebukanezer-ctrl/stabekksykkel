@@ -36,6 +36,12 @@ h2 .tag{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(
 .card .go{font-family:var(--display);font-weight:800;color:var(--accent)}
 .card .g{font-size:.82rem;color:var(--muted);margin:10px 0 0;padding-top:8px;border-top:1px dashed var(--line)}
 .card .g b{font-family:var(--display);color:var(--accent);margin-right:4px}
+.card .status{grid-column:1/-1;display:flex;align-items:center;gap:12px;font-size:.88rem;font-weight:600}
+.card .status[hidden]{display:none}
+.card .status .bar{flex:1;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.card .status .bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
+.card .status.done .bar i{background:#2f8f5b}
+.card .status .st{white-space:nowrap;font-variant-numeric:tabular-nums}
 .soon{border-style:dashed;color:var(--muted);display:flex;gap:12px;align-items:center;padding:16px 18px;border:1px dashed var(--line);border-radius:14px;font-size:.95rem}
 footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
 @media (max-width:620px){.hero{grid-template-columns:1fr;padding-top:24px}.hero svg{max-width:220px}.card{grid-template-columns:52px 1fr}.card .num{width:52px;height:52px;font-size:1.2rem}.card .meta{grid-column:2;align-items:flex-start;flex-direction:row;gap:12px}}
@@ -90,7 +96,7 @@ footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid 
   <h2>Matte <span class="tag">8. trinn</span></h2>
   <ul class="list">
     <li>
-      <a class="card" href="brok-1/">
+      <a class="card" href="brok-1/" data-quiz="brok-1" data-n="16">
         <div class="num">1</div>
         <div>
           <p class="t">Testprøve 1 · Brøk og desimaltall</p>
@@ -98,10 +104,10 @@ footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid 
           <p class="g"><b>Kompetansemål</b> (matematikk etter 8. trinn): grunnlag for brøkregning med primtallsfaktorisering, og programmering. Resten er repetisjon av tall og regning fra tidligere trinn.</p>
         </div>
         <div class="meta"><span>27. okt 2026</span><span class="go">Start →</span></div>
-      </a>
+      <div class="status" hidden><div class="bar"><i></i></div><span class="st"></span></div></a>
     </li>
     <li>
-      <a class="card" href="mat-2/">
+      <a class="card" href="mat-2/" data-quiz="mat-2" data-n="16">
         <div class="num">2</div>
         <div>
           <p class="t">Testprøve 2 · Tall, algebra og funksjoner</p>
@@ -109,14 +115,14 @@ footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid 
           <p class="g"><b>Kompetansemål</b> (matematikk etter 8. trinn): potenser og kvadratrøtter · faktorisering · regneregler · mønstre · regneuttrykk · likninger · ulikheter · funksjoner · programmering. Dekker alle ti mål.</p>
         </div>
         <div class="meta"><span>27. okt 2026</span><span class="go">Start →</span></div>
-      </a>
+      <div class="status" hidden><div class="bar"><i></i></div><span class="st"></span></div></a>
     </li>
   </ul>
 
   <h2>Norsk <span class="tag">8. trinn</span></h2>
   <ul class="list">
     <li>
-      <a class="card" href="norsk-1/">
+      <a class="card" href="norsk-1/" data-quiz="norsk-1" data-n="18">
         <div class="num" style="background:#c2493a">1</div>
         <div>
           <p class="t">Norsk testprøve 1 · Språk, virkemidler og kilder</p>
@@ -124,7 +130,7 @@ footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid 
           <p class="g"><b>Kompetansemål</b> (norsk etter 10. trinn): grammatikk og fagspråk · rettskriving og tegnsetting på hovedmål og sidemål · språklige virkemidler og retoriske appellformer · kilder og sitering · historien til bokmål og nynorsk · sammensatte tekster · lesing.</p>
         </div>
         <div class="meta"><span>27. okt 2026</span><span class="go">Start →</span></div>
-      </a>
+      <div class="status" hidden><div class="bar"><i></i></div><span class="st"></span></div></a>
     </li>
   </ul>
   <div class="soon" style="margin-top:14px">Flere prøver kommer her etter hvert.</div>
@@ -145,5 +151,18 @@ footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid 
 
   <footer>Prøvehjørnet · laget for øving hjemme</footer>
 </div>
+<script>
+document.querySelectorAll("a.card[data-quiz]").forEach(function(a){
+  var n=+a.dataset.n,s=null;
+  try{s=JSON.parse(localStorage.getItem("prove:"+a.dataset.quiz));}catch(e){}
+  if(!s||!s.results||!s.results.length)return;
+  var done=s.results.length,fin=s.i>=n,ok=s.results.filter(function(r){return r.ok}).length;
+  var box=a.querySelector(".status"),go=a.querySelector(".go");
+  box.hidden=false;
+  box.querySelector("i").style.width=Math.min(100,done/n*100)+"%";
+  if(fin){box.classList.add("done");box.querySelector(".st").textContent="Ferdig · "+ok+" av "+n+" riktig";go.textContent="Se resultat →";}
+  else{box.querySelector(".st").textContent=done+" av "+n+" besvart";go.textContent="Fortsett →";}
+});
+</script>
 </body>
 </html>
