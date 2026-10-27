@@ -82,69 +82,114 @@ sup{font-size:.7em;line-height:0}
   }
 
   window.quiz = function (cfg) {
+    var id = cfg.id || location.pathname.replace(/\/+$/, "").split("/").pop();
+    var KEY = "prove:" + id, BEST = KEY + ":best";
+    var N = cfg.questions.length;
+
+    function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+    function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+    function fresh() {
+      return {
+        v: 1, total: N, i: 0, sel: null, results: [],
+        perm: cfg.questions.map(function (q) {
+          return shuffle(q.o.map(function (_, k) { return k; }));
+        })
+      };
+    }
+    function load() {
+      try {
+        var s = JSON.parse(lsGet(KEY));
+        if (s && s.v === 1 && s.perm && s.perm.length === N &&
+            s.perm.every(function (p, k) { return p.length === cfg.questions[k].o.length; })) return s;
+      } catch (e) {}
+      return null;
+    }
+    function save() { lsSet(KEY, JSON.stringify(st)); }
+
+    var st = load(), resumed = !!(st && st.results.length && st.i < N);
+    if (!st) { st = fresh(); save(); }
+
     var app = document.getElementById("app");
     app.innerHTML =
       '<div class="wrap"><header><div><h1>' + cfg.title + '</h1><p class="sub">' + cfg.sub + "</p></div>" +
       '<div class="tools"><p class="sub" id="counter"></p>' +
       '<button class="btn ghost small" id="reset" type="button">Start på nytt</button>' +
       '<a class="back" href="' + (cfg.back || "../") + '">Til oversikten</a></div></header>' +
+      '<p class="sub" id="note" hidden></p>' +
       '<div class="progress"><div id="bar"></div></div><div class="card" id="card"></div></div>';
 
     var card = document.getElementById("card"),
       bar = document.getElementById("bar"),
-      counter = document.getElementById("counter");
-    var order, i, results;
+      counter = document.getElementById("counter"),
+      note = document.getElementById("note");
 
-    function start() {
-      order = cfg.questions.map(function (q) {
-        var idx = shuffle(q.o.map(function (_, k) { return k; }));
-        return Object.assign({}, q, {
-          opts: idx.map(function (k) { return q.o[k]; }),
-          ans: idx.indexOf(q.a || 0)
-        });
-      });
-      i = 0; results = [];
+    function current() {
+      var q = cfg.questions[st.i], perm = st.perm[st.i];
+      return {
+        q: q,
+        opts: perm.map(function (k) { return q.o[k]; }),
+        ans: perm.indexOf(q.a || 0)
+      };
+    }
+
+    function restart() {
+      st = fresh(); save();
+      note.hidden = true;
       render();
     }
 
     function render() {
-      bar.style.width = (i / order.length * 100) + "%";
-      if (i >= order.length) return finish();
-      var q = order[i];
-      counter.textContent = "Spørsmål " + (i + 1) + " av " + order.length;
+      bar.style.width = (st.i / N * 100) + "%";
+      if (st.i >= N) return finish();
+      var c = current(), q = c.q;
+      counter.textContent = "Spørsmål " + (st.i + 1) + " av " + N;
       var fig = q.fig && cfg.figs ? cfg.figs[q.fig] : "";
       card.innerHTML =
-        '<p class="eyebrow">Oppgave ' + (i + 1) + (q.t ? " · " + q.t : "") + "</p>" + fig +
+        '<p class="eyebrow">Oppgave ' + (st.i + 1) + (q.t ? " · " + q.t : "") + "</p>" + fig +
         '<p class="q">' + q.q + "</p>" +
-        '<ul class="opts">' + q.opts.map(function (o, k) {
-          return '<li><button class="opt" data-k="' + k + '" id="opt' + i + "-" + k + '"><span class="k">' + "ABCD"[k] + "</span><span>" + o + "</span></button></li>";
+        '<ul class="opts">' + c.opts.map(function (o, k) {
+          return '<li><button class="opt" data-k="' + k + '" id="opt' + st.i + "-" + k + '"><span class="k">' + "ABCD"[k] + "</span><span>" + o + "</span></button></li>";
         }).join("") + "</ul>" +
         '<div class="feedback" id="fb"></div><div class="actions"><button class="btn" id="next" hidden>Neste</button></div>';
       card.querySelectorAll(".opt").forEach(function (b) {
         b.addEventListener("click", function () { answer(+b.dataset.k); });
       });
-      document.getElementById("next").addEventListener("click", function () { i++; render(); });
+      document.getElementById("next").addEventListener("click", function () {
+        st.i++; st.sel = null; save(); note.hidden = true; render();
+      });
+      if (st.sel !== null) showAnswer(st.sel);
     }
 
     function answer(k) {
-      var q = order[i], btns = card.querySelectorAll(".opt"), ok = k === q.ans;
-      btns.forEach(function (b, j) {
+      var c = current();
+      st.sel = k;
+      st.results.push({ n: st.i + 1, g: c.q.g, ok: k === c.ans });
+      save();
+      showAnswer(k);
+    }
+
+    function showAnswer(k) {
+      var c = current(), ok = k === c.ans;
+      card.querySelectorAll(".opt").forEach(function (b, j) {
         b.disabled = true;
-        if (j === q.ans) b.classList.add("correct");
+        if (j === c.ans) b.classList.add("correct");
         else if (j === k) b.classList.add("wrong");
       });
       var fb = document.getElementById("fb");
       fb.className = "feedback show " + (ok ? "ok" : "no");
-      fb.innerHTML = "<b>" + (ok ? "Riktig!" : "Ikke helt.") + "</b> " + q.e;
-      results.push({ n: i + 1, g: q.g, ok: ok });
+      fb.innerHTML = "<b>" + (ok ? "Riktig!" : "Ikke helt.") + "</b> " + c.q.e;
       var next = document.getElementById("next");
       next.hidden = false;
-      next.textContent = i === order.length - 1 ? "Se resultat" : "Neste";
+      next.textContent = st.i === N - 1 ? "Se resultat" : "Neste";
       next.focus();
     }
 
     function finish() {
+      var results = st.results;
       var n = results.filter(function (r) { return r.ok; }).length;
+      var prev = parseInt(lsGet(BEST), 10);
+      if (isNaN(prev) || n > prev) lsSet(BEST, String(n));
       counter.textContent = "Ferdig";
       var by = {};
       results.forEach(function (r) {
@@ -157,18 +202,33 @@ sup{font-size:.7em;line-height:0}
         return '<li><span class="dot ' + (s.ok === s.t ? "" : "no") + '"></span><span>' + cfg.goals[g] + '</span><span class="sc">' + s.ok + "/" + s.t + "</span></li>";
       }).join("");
       var missed = results.filter(function (r) { return !r.ok; }).map(function (r) { return r.n; });
-      var msg = n === order.length ? "Alt riktig – fantastisk!" :
-        n >= order.length * 0.7 ? "Bra jobba! Se over det du bommet på." :
+      var msg = n === N ? "Alt riktig – fantastisk!" :
+        n >= N * 0.7 ? "Bra jobba! Se over det du bommet på." :
         "Øv litt til på det som er rødt, så prøver du igjen.";
       card.innerHTML =
-        '<p class="eyebrow">Resultat</p><div class="big">' + n + " / " + order.length + "</div><p>" + msg + "</p>" +
-        '<p class="eyebrow" style="margin-top:18px">Resultat per kompetansemål</p><ul class="review">' + rows + "</ul>" +
+        '<p class="eyebrow">Resultat</p><div class="big">' + n + " / " + N + "</div><p>" + msg + "</p>" +
+        '<p class="eyebrow" style="margin-top:18px">' + (cfg.goalsTitle || "Resultat per kompetansemål") + '</p><ul class="review">' + rows + "</ul>" +
         (missed.length ? '<p class="missed">Bommet på oppgave: ' + missed.join(", ") + ".</p>" : "") +
-        '<div class="actions"><button class="btn" id="again">Prøv igjen</button></div>';
-      document.getElementById("again").addEventListener("click", start);
+        '<div class="actions"><button class="btn" id="again">Prøv på nytt</button></div>';
+      document.getElementById("again").addEventListener("click", restart);
     }
 
-    document.getElementById("reset").addEventListener("click", start);
-    start();
+    var rb = document.getElementById("reset"), rt;
+    function disarm() { clearTimeout(rt); rb.dataset.arm = ""; rb.textContent = "Start på nytt"; }
+    rb.addEventListener("click", function () {
+      if (rb.dataset.arm) { disarm(); restart(); }
+      else if (!st.results.length) { restart(); }
+      else {
+        rb.dataset.arm = "1";
+        rb.textContent = "Trykk igjen for å slette";
+        rt = setTimeout(disarm, 3500);
+      }
+    });
+
+    if (resumed) {
+      note.textContent = "Du fortsetter der du slapp: " + st.results.length + " av " + N + " er besvart. Trykk «Start på nytt» for å begynne på nytt.";
+      note.hidden = false;
+    }
+    render();
   };
 })();
