@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Norsk testprøve 1 · Språk, virkemidler og kilder</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/quiz.js"></script>
+<script>
+const tekst = `<blockquote class="excerpt">Mia stod ved bussholdeplassen i regnet. Bussen var forsinket for tredje gang den uken. Hun så på klokka, så bort på den tomme veien og sukket høyt. «Typisk,» mumlet hun og trakk hetta lenger ned over hodet.</blockquote>`;
+
+quiz({
+  title: "Norsk testprøve 1 · Språk, virkemidler og kilder",
+  sub: "Norsk 8. trinn · flervalg · ingen hjelpemidler",
+  back: "../",
+  figs: { tekst: tekst },
+  goals: {
+    gra: "Grammatikk og fagspråk",
+    rett: "Rettskriving og tegnsetting",
+    virk: "Språklige virkemidler og retoriske appellformer",
+    kil: "Kilder og sitering",
+    hist: "Bokmål og nynorsk",
+    samm: "Sammensatte tekster",
+    les: "Lesing og tolkning av tekst"
+  },
+  questions: [
+    { t: "Ordklasser", g: "gra", q: "Hvilket ord er et adjektiv i setningen «Den store hunden løp raskt over gresset»?",
+      o: ["store", "hunden", "løp", "raskt"], a: 0,
+      e: "Adjektiv beskriver substantiv. «store» sier noe om hunden. «raskt» beskriver verbet «løp» og er et adverb." },
+    { t: "Verbtid", g: "gra", q: "Hvilken setning står i preteritum (fortid)?",
+      o: ["Hun løp til skolen.", "Hun løper til skolen.", "Hun har løpt til skolen.", "Hun skal løpe til skolen."], a: 0,
+      e: "Preteritum er den enkle fortiden: «løp». «Har løpt» er presens perfektum, «løper» er presens og «skal løpe» er futurum." },
+    { t: "De og dem", g: "rett", q: "Hvilken setning er riktig skrevet?",
+      o: ["Jeg ga dem boka.", "Jeg ga de boka.", "Dem som kommer først, får plass.", "De sa at dem ville komme."], a: 0,
+      e: "«De» brukes som subjekt (de som gjør noe). «Dem» brukes som objekt (de som noe blir gjort mot). Her får «dem» boka, så det er objekt." },
+    { t: "Å og og", g: "rett", q: "Hvilken setning er riktig skrevet?",
+      o: ["Jeg liker å svømme og løpe.", "Jeg liker og svømme å løpe.", "Jeg liker å svømme å løpe.", "Jeg liker og svømme og løpe."], a: 0,
+      e: "«Å» står foran verb i infinitiv (å svømme). «Og» binder sammen to ord eller setningsledd (svømme og løpe)." },
+    { t: "Sammensatte ord", g: "rett", q: "Hvilken setning er skrevet riktig?",
+      o: ["Hun kjøpte en ny sykkellås.", "Hun kjøpte en ny sykkel lås.", "Hun kjøpte en ny sykkel-lås.", "Hun kjøpte en ny sykkelslås."], a: 0,
+      e: "Sammensatte ord skrives i ett: sykkel + lås = sykkellås. Å skrive dem hver for seg kalles særskriving og kan endre meningen." },
+    { t: "Komma", g: "rett", q: "Hvilken setning har riktig bruk av komma?",
+      o: ["Vi kjøpte epler, bananer og druer.", "Vi kjøpte epler, bananer, og druer.", "Vi kjøpte epler bananer og druer.", "Vi kjøpte, epler bananer og druer."], a: 0,
+      e: "I en oppramsing setter vi komma mellom leddene, men ikke foran «og» (i motsetning til engelsk)." },
+    { t: "Virkemidler", g: "virk", q: "«Vinden hvisket i trærne.» Hvilket virkemiddel er brukt?",
+      o: ["Besjeling", "Hyperbol (overdrivelse)", "Sammenligning", "Ironi"], a: 0,
+      e: "Vinden får en menneskelig egenskap (å hviske). Det kalles besjeling eller personifikasjon." },
+    { t: "Virkemidler", g: "virk", q: "«Jeg har ventet i en evighet!» Hvilket virkemiddel er brukt?",
+      o: ["Hyperbol (overdrivelse)", "Besjeling", "Allitterasjon", "Sammenligning"], a: 0,
+      e: "Ingen kan vente i en evighet. Det er en bevisst overdrivelse, en hyperbol." },
+    { t: "Virkemidler", g: "virk", q: "«Livet er en berg-og-dal-bane.» Hvilket virkemiddel er brukt?",
+      o: ["Metafor", "Sammenligning med «som»", "Besjeling", "Hyperbol (overdrivelse)"], a: 0,
+      e: "En metafor sier at noe ER noe annet. En sammenligning bruker ordene «som» eller «lik»." },
+    { t: "Appellformer", g: "virk", q: "En reklame viser en kjent landslagsutøver som sier at hun bruker produktet selv hver dag. Hvilken appellform brukes mest?",
+      o: ["Etos (troverdighet)", "Patos (følelser)", "Logos (fornuft og fakta)", "Allitterasjon"], a: 0,
+      e: "Etos handler om avsenderens troverdighet. Vi stoler på produktet fordi vi stoler på personen." },
+    { t: "Appellformer", g: "virk", q: "En innsamlingsaksjon viser et bilde av et ensomt barn og en tekst som skal få deg til å føle medfølelse. Hvilken appellform brukes?",
+      o: ["Patos (følelser)", "Etos (troverdighet)", "Logos (fornuft og fakta)", "Ironi"], a: 0,
+      e: "Patos appellerer til følelsene våre, her medfølelse." },
+    { t: "Kilder", g: "kil", q: "Du skal skrive om klimaendringer. Hvilken kilde er mest pålitelig?",
+      o: ["En rapport fra FNs klimapanel", "En anonym blogg", "En kommentar i et sosialt medium", "En reklame fra et oljeselskap"], a: 0,
+      e: "En god kilde har en kjent avsender med faglig kompetanse, og baserer seg på forskning. Sjekk alltid hvem som står bak og hvorfor." },
+    { t: "Sitater", g: "kil", q: "Du vil bruke en setning ordrett fra en nettartikkel. Hva må du gjøre?",
+      o: ["Sette setningen i anførselstegn og oppgi kilden", "Skrive den om litt og la være å oppgi kilden", "Kopiere den uten tegn, siden den er på nett", "Skrive den i kursiv uten å oppgi kilde"], a: 0,
+      e: "Ordrette sitater skal stå i anførselstegn, og du skal alltid si hvor de kommer fra. Ellers er det plagiat." },
+    { t: "Nynorsk og bokmål", g: "hist", q: "Hvem la, rundt midten av 1800-tallet, grunnlaget for nynorsk (landsmål) ved å samle og sammenligne norske dialekter?",
+      o: ["Ivar Aasen", "Knud Knudsen", "Henrik Ibsen", "Snorre Sturluson"], a: 0,
+      e: "Ivar Aasen reiste rundt og samlet dialekter, og laget et nytt skriftspråk bygget på dem. Knud Knudsen arbeidet i stedet for å norvegianisere det danske skriftspråket, som ble bokmål." },
+    { t: "Nynorsk (sidemål)", g: "rett", q: "Hvilken setning er skrevet på nynorsk?",
+      o: ["Eg kjem frå Bergen og har lese ei bok.", "Jeg kommer fra Bergen og har lest en bok.", "Eg kommer fra Bergen og har lest ei bok.", "Jeg kjem frå Bergen og har lese ei bok."], a: 0,
+      e: "Typiske nynorskformer: eg, kjem, frå, lese, ei. De andre setningene blander bokmål og nynorsk." },
+    { t: "Sammensatte tekster", g: "samm", q: "Hva kalles en tekst som kombinerer flere uttrykksformer, for eksempel skrift, bilde og lyd?",
+      o: ["Sammensatt tekst", "Kronikk", "Dikt", "Leserbrev"], a: 0,
+      e: "Nettaviser, filmer, reklame og tegneserier er sammensatte tekster. Forfatteren velger uttrykksformene for å få fram budskapet." },
+    { t: "Tekstforståelse", g: "les", fig: "tekst", q: "Hvilken forteller har teksten om Mia?",
+      o: ["Tredjepersonsforteller, som forteller utenfra og bruker «hun»", "Jeg-forteller, som er med i handlingen", "Du-forteller, som snakker direkte til leseren", "Flere fortellere som bytter på"], a: 0,
+      e: "Fortelleren står utenfor historien og beskriver «hun». Det er en tredjepersonsforteller." },
+    { t: "Tekstforståelse", g: "les", fig: "tekst", q: "Hva forteller teksten indirekte om hvordan Mia har det?",
+      o: ["Hun er irritert og lei", "Hun er veldig glad", "Hun er redd for bussen", "Hun er sint på læreren"], a: 0,
+      e: "Det står ikke at Mia er irritert, men sukket, «Typisk» og at bussen er forsinket for tredje gang viser det. Det kalles indirekte karakteristikk." }
+  ]
+});
+</script>
+</body>
+</html>
