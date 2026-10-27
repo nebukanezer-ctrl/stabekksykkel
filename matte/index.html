@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prøvehjørnet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: hero band with a math-doodle illustration, then one card per prøve grouped by fag. */
+:root{
+  --bg:#f6f8fb; --paper:#ffffff; --fg:#1d2433; --muted:#5d6678; --line:#d5dbe6;
+  --accent:#2f5fb3; --accent-soft:#e3ebfa; --sun:#f6b73c; --mint:#5ccfa0; --coral:#f07a6a;
+  --display:"Nunito",system-ui,sans-serif; --body:"Source Sans 3",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#141922; --paper:#1d2431; --fg:#eef1f6; --muted:#9aa4b8; --line:#333c4d;
+  --accent:#7ea4ea; --accent-soft:#23324d; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px)) 48px}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center;padding:40px 0 24px}
+.hero h1{font-family:var(--display);font-weight:900;font-size:clamp(2rem,5vw,3rem);line-height:1.05;margin:0 0 10px;text-wrap:balance}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--muted);margin:0;max-width:34ch}
+.hero svg{width:100%;max-width:320px;height:auto;justify-self:center}
+h2{font-family:var(--display);font-weight:800;font-size:1.2rem;letter-spacing:.02em;margin:32px 0 12px;display:flex;align-items:center;gap:10px}
+h2 .tag{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:999px}
+.list{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.card{display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;text-decoration:none;color:inherit;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.card .num{width:64px;height:64px;border-radius:14px;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:1.5rem;color:#fff;background:var(--accent)}
+.card .t{font-family:var(--display);font-weight:800;font-size:1.1rem;margin:0}
+.card .d{color:var(--muted);font-size:.95rem;margin:2px 0 0}
+.card .meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:.85rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.card .go{font-family:var(--display);font-weight:800;color:var(--accent)}
+.soon{border-style:dashed;color:var(--muted);display:flex;gap:12px;align-items:center;padding:16px 18px;border:1px dashed var(--line);border-radius:14px;font-size:.95rem}
+footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:620px){.hero{grid-template-columns:1fr;padding-top:24px}.hero svg{max-width:220px}.card{grid-template-columns:52px 1fr}.card .num{width:52px;height:52px;font-size:1.2rem}.card .meta{grid-column:2;align-items:flex-start;flex-direction:row;gap:12px}}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <h1>Prøve<span>hjørnet</span></h1>
+      <p>Øvingsprøver du kan ta så mange ganger du vil. Du får svar og forklaring med en gang.</p>
+    </div>
+    <svg viewBox="0 0 320 260" role="img" aria-label="Brøker, tallinje og rutenett">
+      <!-- grid paper -->
+      <rect x="10" y="20" width="300" height="220" rx="14" fill="var(--paper)" stroke="var(--line)" stroke-width="2"/>
+      <g stroke="var(--line)" stroke-width="1" opacity=".7">
+        <path d="M40 20V240M70 20V240M100 20V240M130 20V240M160 20V240M190 20V240M220 20V240M250 20V240M280 20V240"/>
+        <path d="M10 50H310M10 80H310M10 110H310M10 140H310M10 170H310M10 200H310M10 230H310"/>
+      </g>
+      <!-- pie fraction 3/4 -->
+      <circle cx="80" cy="90" r="42" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="3"/>
+      <path d="M80 90 L80 48 A42 42 0 1 1 38 90 Z" fill="var(--accent)"/>
+      <path d="M80 90 L80 48 M80 90 L38 90 M80 90 L122 90 M80 90 L80 132" stroke="var(--paper)" stroke-width="3"/>
+      <!-- shaded grid 3/8 -->
+      <g transform="translate(160 50)">
+        <rect width="120" height="60" fill="var(--paper)" stroke="var(--accent)" stroke-width="3"/>
+        <rect x="0" y="0" width="30" height="30" fill="var(--sun)"/>
+        <rect x="30" y="0" width="30" height="30" fill="var(--sun)"/>
+        <rect x="0" y="30" width="30" height="30" fill="var(--sun)"/>
+        <path d="M30 0V60M60 0V60M90 0V60M0 30H120" stroke="var(--accent)" stroke-width="2"/>
+      </g>
+      <!-- number line -->
+      <g transform="translate(0 185)">
+        <line x1="40" y1="0" x2="285" y2="0" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>
+        <polygon points="285,-6 297,0 285,6" fill="var(--fg)"/>
+        <path d="M60 -8V8M115 -8V8M170 -8V8M225 -8V8M280 -8V8" stroke="var(--fg)" stroke-width="3"/>
+        <circle cx="170" cy="0" r="9" fill="var(--coral)" stroke="var(--paper)" stroke-width="3"/>
+        <text x="60" y="28" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="14" fill="var(--fg)">0</text>
+        <text x="280" y="28" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="800" font-size="14" fill="var(--fg)">1</text>
+      </g>
+      <!-- floating fraction -->
+      <g transform="translate(248 128) rotate(-8)">
+        <rect x="-26" y="-22" width="52" height="46" rx="10" fill="var(--mint)"/>
+        <text x="0" y="-4" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="16" fill="#0f2a1e">3</text>
+        <path d="M-12 0H12" stroke="#0f2a1e" stroke-width="2.5"/>
+        <text x="0" y="17" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="16" fill="#0f2a1e">8</text>
+      </g>
+    </svg>
+  </section>
+
+  <h2>Matte <span class="tag">7. trinn</span></h2>
+  <ul class="list">
+    <li>
+      <a class="card" href="brok-1/">
+        <div class="num">1</div>
+        <div>
+          <p class="t">Testprøve 1 · Brøk og desimaltall</p>
+          <p class="d">16 flervalgsoppgaver: desimaltall, brøkregning, målenheter, tallinje, prosent og litt Python.</p>
+        </div>
+        <div class="meta"><span>27. okt 2026</span><span class="go">Start →</span></div>
+      </a>
+    </li>
+  </ul>
+  <div class="soon" style="margin-top:14px">Flere prøver kommer her etter hvert.</div>
+
+  <footer>Prøvehjørnet · laget for øving hjemme</footer>
+</div>
+</body>
+</html>
