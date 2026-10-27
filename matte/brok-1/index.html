@@ -4,85 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testprøve 1 · Brøk og desimaltall</title>
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap">
-<style>
-/* Layout: one question card at a time on a ruled "kladdebok" ground, progress bar on top, result card at the end. */
-:root{
-  --bg:#f6f8fb; --paper:#ffffff; --fg:#1d2433; --muted:#5d6678; --line:#d5dbe6;
-  --accent:#2f5fb3; --accent-soft:#e3ebfa; --good:#1f8a4c; --good-soft:#dff4e6; --bad:#c23a3a; --bad-soft:#fbe3e3;
-  --display:"Nunito",system-ui,sans-serif; --body:"Source Sans 3",system-ui,sans-serif;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#141922; --paper:#1d2431; --fg:#eef1f6; --muted:#9aa4b8; --line:#333c4d;
-  --accent:#7ea4ea; --accent-soft:#23324d; --good:#5fcf8c; --good-soft:#1c3a2a; --bad:#f08080; --bad-soft:#44232a; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#141922; --paper:#1d2431; --fg:#eef1f6; --muted:#9aa4b8; --line:#333c4d;
-  --accent:#7ea4ea; --accent-soft:#23324d; --good:#5fcf8c; --good-soft:#1c3a2a; --bad:#f08080; --bad-soft:#44232a; color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.5;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px}
-.wrap{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
-header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
-h1{font-family:var(--display);font-weight:800;font-size:1.6rem;margin:0;text-wrap:balance}
-.sub{color:var(--muted);font-size:.95rem;margin:0}
-.tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.btn.small{padding:6px 12px;font-size:.85rem}
-.back{color:var(--muted);font-size:.9rem}
-.progress{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
-.progress>div{height:100%;background:var(--accent);width:0;transition:width .3s}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px}
-.eyebrow{font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 6px}
-.q{font-size:1.15rem;margin:0 0 16px;font-weight:600}
-.q .frac{font-weight:600}
-.opts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
-.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:var(--fg);background:var(--paper);
-  border:2px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
-.opt:hover{border-color:var(--accent)}
-.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.opt .k{font-family:var(--display);font-weight:800;color:var(--accent);background:var(--accent-soft);border-radius:6px;min-width:28px;height:28px;display:grid;place-items:center;flex:none}
-.opt.correct{border-color:var(--good);background:var(--good-soft)}
-.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
-.opt[disabled]{cursor:default}
-.feedback{margin-top:16px;padding:12px 14px;border-radius:10px;display:none}
-.feedback.show{display:block}
-.feedback.ok{background:var(--good-soft);color:var(--fg)}
-.feedback.no{background:var(--bad-soft);color:var(--fg)}
-.feedback b{font-family:var(--display)}
-.actions{display:flex;justify-content:flex-end;margin-top:16px}
-.btn{font-family:var(--display);font-weight:800;font-size:1rem;color:#fff;background:var(--accent);border:0;border-radius:10px;padding:11px 20px;cursor:pointer}
-.btn:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
-.btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
-.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;margin:0 3px;font-variant-numeric:tabular-nums}
-.frac span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px}
-.frac span:last-child{padding:0 3px}
-figure{margin:0 0 16px}
-svg{max-width:100%;height:auto;display:block}
-.big{font-family:var(--display);font-weight:800;font-size:3rem;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
-.review{display:grid;gap:8px;margin:16px 0 0;padding:0;list-style:none}
-.review li{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-top:1px solid var(--line)}
-.review .dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--good);margin-top:6px}
-.review .dot.no{background:var(--bad)}
-pre{font-size:.9rem;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;margin:0 0 14px}
-@media (prefers-reduced-motion:reduce){.progress>div{transition:none}}
-</style>
-
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div>
-      <h1>Testprøve 1 · Brøk og desimaltall</h1>
-      <p class="sub">Brøk og desimaltall · flervalg · ingen hjelpemidler</p>
-    </div>
-    <div class="tools"><p class="sub" id="counter"></p><button class="btn ghost small" id="reset" type="button">Start på nytt</button><a class="back" href="../">Til oversikten</a></div>
-  </header>
-  <div class="progress"><div id="bar"></div></div>
-  <div class="card" id="card"></div>
-</div>
-
+<div id="app"></div>
+<script src="../assets/quiz.js"></script>
 <script>
-const F=(n,d)=>`<span class="frac"><span>${n}</span><span>${d}</span></span>`;
-
 const numberLine=`<figure><svg viewBox="0 0 520 80" role="img" aria-label="Tallinje fra 0 til 1 med en pil">
 <line x1="20" y1="50" x2="500" y2="50" stroke="currentColor" stroke-width="2"/>
 <polygon points="500,45 510,50 500,55" fill="currentColor"/>
@@ -107,84 +33,61 @@ tall = float(input("Skriv inn et tall: "))
 svar = tall - 5
 print("Resultatet er", svar)</pre>`;
 
-const Q=[
- {t:"Oppgave 1",q:"Hvilken rekkefølge er fra minst til størst?",
+quiz({
+  id: "brok-1",
+  title: "Testprøve 1 · Brøk og desimaltall",
+  sub: "Matematikk 8. trinn · flervalg · ingen hjelpemidler",
+  back: "../",
+  goalsTitle: "Resultat per tema",
+  figs: { numberLine: numberLine, grid: grid, kode: code },
+  goals: {
+    stor: "Sammenligne og ordne tall",
+    brok: "Brøkregning",
+    des: "Regning med desimaltall",
+    mal: "Målenheter",
+    pros: "Brøk, desimaltall og prosent",
+    tall: "Tallinje og brøkdeler av figurer",
+    prog: "Programmering"
+  },
+  questions: [
+ {t:"Størrelsesorden",g:"stor",q:"Hvilken rekkefølge er fra minst til størst?",
   o:["0,09 &lt; 0,37 &lt; 0,5 &lt; 0,505","0,09 &lt; 0,37 &lt; 0,505 &lt; 0,5","0,5 &lt; 0,505 &lt; 0,37 &lt; 0,09","0,37 &lt; 0,09 &lt; 0,5 &lt; 0,505"],a:0,
   e:"Sammenlign plass for plass: 0,09 (null tideler) er minst. 0,505 er litt mer enn 0,500."},
- {t:"Oppgave 2a",q:`Regn ut ${F(7,4)} – ${F(2,3)}.`,
+ {t:"Brøkregning",g:"brok",q:`Regn ut ${F(7,4)} – ${F(2,3)}.`,
   o:[F(13,12),F(5,1),F(5,12),F(9,7)],a:0,
   e:`Fellesnevner 12: ${F(21,12)} – ${F(8,12)} = ${F(13,12)}.`},
- {t:"Oppgave 2b",q:"Regn ut 2,75 · 40.",o:["110","100","1100","90"],a:0,
+ {t:"Desimaltall",g:"des",q:"Regn ut 2,75 · 40.",o:["110","100","1100","90"],a:0,
   e:"2 · 40 = 80 og 0,75 · 40 = 30. Til sammen 110."},
- {t:"Oppgave 3a",q:"2,4 m = ____ cm",o:["240 cm","24 cm","2400 cm","0,24 cm"],a:0,e:"1 m = 100 cm, så 2,4 · 100 = 240."},
- {t:"Oppgave 3b",q:"625 mm = ____ dm",o:["6,25 dm","62,5 dm","0,625 dm","6250 dm"],a:0,e:"1 dm = 100 mm, så 625 : 100 = 6,25."},
- {t:"Oppgave 3c",q:"3750 g = ____ kg",o:["3,75 kg","37,5 kg","375 kg","0,375 kg"],a:0,e:"1 kg = 1000 g, så 3750 : 1000 = 3,75."},
- {t:"Oppgave 3d",q:"84 kg = ____ tonn",o:["0,084 tonn","0,84 tonn","8,4 tonn","84 000 tonn"],a:0,e:"1 tonn = 1000 kg, så 84 : 1000 = 0,084."},
- {t:"Oppgave 4",q:`I en park er det 90 personer. Halvparten jogger, ${F(1,5)} sitter på benker, og resten er i lekeparken. Av dem i lekeparken bruker ${F(4,9)} husken. Hvor mange i lekeparken bruker <u>ikke</u> husken?`,
+ {t:"Målenheter",g:"mal",q:"2,4 m = ____ cm",o:["240 cm","24 cm","2400 cm","0,24 cm"],a:0,e:"1 m = 100 cm, så 2,4 · 100 = 240."},
+ {t:"Målenheter",g:"mal",q:"625 mm = ____ dm",o:["6,25 dm","62,5 dm","0,625 dm","6250 dm"],a:0,e:"1 dm = 100 mm, så 625 : 100 = 6,25."},
+ {t:"Målenheter",g:"mal",q:"3750 g = ____ kg",o:["3,75 kg","37,5 kg","375 kg","0,375 kg"],a:0,e:"1 kg = 1000 g, så 3750 : 1000 = 3,75."},
+ {t:"Målenheter",g:"mal",q:"84 kg = ____ tonn",o:["0,084 tonn","0,84 tonn","8,4 tonn","84 000 tonn"],a:0,e:"1 tonn = 1000 kg, så 84 : 1000 = 0,084."},
+ {t:"Tekstoppgave",g:"brok",q:`I en park er det 90 personer. Halvparten jogger, ${F(1,5)} sitter på benker, og resten er i lekeparken. Av dem i lekeparken bruker ${F(4,9)} husken. Hvor mange i lekeparken bruker <u>ikke</u> husken?`,
   o:["15","12","27","20"],a:0,
   e:"Jogger: 45. Benker: 90 : 5 = 18. Lekeparken: 90 – 45 – 18 = 27. Husken: 27 · 4/9 = 12. Ikke husken: 27 – 12 = 15."},
- {t:"Oppgave 5",fig:code,q:"Hva er <u>ulikt</u> med programmene?",
+ {t:"Programmering",g:"prog",fig:"kode",q:"Hva er <u>ulikt</u> med programmene?",
   o:["Program 1 godtar bare heltall og legger til 5; program 2 godtar desimaltall, trekker fra 5 og skriver en tekst foran svaret",
      "Program 1 ber om et tall, program 2 gjør det ikke","Begge gjør nøyaktig det samme","Program 2 kan ikke kjøre fordi det mangler en linje"],a:0,
   e:"Likt: begge leser inn et tall, regner ut og skriver ut. Ulikt: int/float, + 5 mot – 5, og print med tekst i program 2."},
- {t:"Oppgave 6a",fig:numberLine,q:"Hvilket tall peker pila på?",
+ {t:"Tallinje",g:"tall",fig:"numberLine",q:"Hvilket tall peker pila på?",
   o:[F(3,4),F(1,4),F(3,5),F(2,3)],a:0,e:"Tallinja fra 0 til 1 er delt i 4 like deler. Pila står på den tredje streken."},
- {t:"Oppgave 6b",fig:grid,q:`Figuren har 24 ruter. Hvor mange ruter må du fargelegge for å vise ${F(3,8)} av figuren?`,
+ {t:"Brøkdel av figur",g:"tall",fig:"grid",q:`Figuren har 24 ruter. Hvor mange ruter må du fargelegge for å vise ${F(3,8)} av figuren?`,
   o:["9 ruter","3 ruter","8 ruter","18 ruter"],a:0,e:"24 : 8 = 3 ruter i hver åttendedel. 3 · 3 = 9."},
- {t:"Oppgave 6c",q:`Regn ut ${F(3,8)} av 320.`,o:["120","40","960","80"],a:0,e:"320 : 8 = 40. 40 · 3 = 120."},
- {t:"Oppgave 7",q:"Hvilken rad i tabellen brøk – desimaltall – prosent er riktig og forkortet mest mulig?",
+ {t:"Brøkdel av tall",g:"brok",q:`Regn ut ${F(3,8)} av 320.`,o:["120","40","960","80"],a:0,e:"320 : 8 = 40. 40 · 3 = 120."},
+ {t:"Brøk, desimaltall og prosent",g:"pros",q:"Hvilken rad i tabellen brøk – desimaltall – prosent er riktig og forkortet mest mulig?",
   o:[`${F(3,5)} – 0,6 – 60 %`,`${F(6,10)} – 0,6 – 6 %`,`${F(3,4)} – 0,34 – 75 %`,`${F(9,20)} – 0,45 – 4,5 %`],a:0,
   e:`0,6 = 60 % = ${F(6,10)}, som forkortes til ${F(3,5)}. (45 % = 0,45 = ${F(9,20)}.)`},
- {t:"Oppgave 8",q:`Hvilken brøk er størst av ${F(2,5)} og ${F(3,8)}?`,
+ {t:"Sammenligne brøker",g:"stor",q:`Hvilken brøk er størst av ${F(2,5)} og ${F(3,8)}?`,
   o:[`${F(2,5)}, fordi ${F(16,40)} &gt; ${F(15,40)}`,`${F(3,8)}, fordi 3 er mer enn 2`,`${F(3,8)}, fordi 8 er mer enn 5`,"De er like store"],a:0,
   e:"Fellesnevner 40 (eller desimaltall: 0,4 og 0,375)."},
- {t:"Oppgave 9",q:`Skriv tallene fra minst til størst: ${F(1,4)}, ${F(3,13)}, 20 %, 0,2399.`,
+ {t:"Rekkefølge",g:"stor",q:`Skriv tallene fra minst til størst: ${F(1,4)}, ${F(3,13)}, 20 %, 0,2399.`,
   o:[`20 % &lt; ${F(3,13)} &lt; 0,2399 &lt; ${F(1,4)}`,`${F(3,13)} &lt; 20 % &lt; ${F(1,4)} &lt; 0,2399`,`20 % &lt; 0,2399 &lt; ${F(3,13)} &lt; ${F(1,4)}`,`${F(1,4)} &lt; 0,2399 &lt; ${F(3,13)} &lt; 20 %`],a:0,
   e:"Gjør alt om til desimaltall: 20 % = 0,2; 3/13 ≈ 0,231; 0,2399; 1/4 = 0,25."},
- {t:"Oppgave 10",q:`Du tegner et rektangel, deler det i 3 like deler den ene veien og skraverer 2 av dem, deler i 4 like deler den andre veien og skraverer 3. Hva viser rutene som er skravert begge veier, og hva er svaret på ${F(2,3)} · ${F(3,4)}?`,
+ {t:"Multiplisere brøker",g:"brok",q:`Du tegner et rektangel, deler det i 3 like deler den ene veien og skraverer 2 av dem, deler i 4 like deler den andre veien og skraverer 3. Hva viser rutene som er skravert begge veier, og hva er svaret på ${F(2,3)} · ${F(3,4)}?`,
   o:[`6 av 12 ruter, altså ${F(1,2)}`,`5 av 12 ruter, altså ${F(5,12)}`,`6 av 7 ruter, altså ${F(6,7)}`,`2 av 3 ruter, altså ${F(2,3)}`],a:0,
   e:"2 · 3 = 6 ruter er skravert begge veier, av 3 · 4 = 12 ruter totalt. 6/12 = 1/2."}
-];
-
-// shuffle options once per run so the right answer isn't always A
-function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
-let order,i,results;
-function start(){
-  order=Q.map(q=>{const idx=shuffle([0,1,2,3]);return {...q,opts:idx.map(k=>q.o[k]),ans:idx.indexOf(q.a)};});
-  i=0;results=[];render();
-}
-const card=document.getElementById("card"),bar=document.getElementById("bar"),counter=document.getElementById("counter");
-function render(){
-  bar.style.width=(i/order.length*100)+"%";
-  if(i>=order.length)return finish();
-  const q=order[i];
-  counter.textContent=`Spørsmål ${i+1} av ${order.length}`;
-  card.innerHTML=`<p class="eyebrow">${q.t}</p>${q.fig||""}<p class="q">${q.q}</p>
-   <ul class="opts">${q.opts.map((o,k)=>`<li><button class="opt" data-k="${k}" id="opt${i}-${k}"><span class="k">${"ABCD"[k]}</span><span>${o}</span></button></li>`).join("")}</ul>
-   <div class="feedback" id="fb"></div><div class="actions"><button class="btn" id="next" hidden>Neste</button></div>`;
-  card.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>answer(+b.dataset.k)));
-  document.getElementById("next").addEventListener("click",()=>{i++;render();});
-}
-function answer(k){
-  const q=order[i],btns=card.querySelectorAll(".opt"),ok=k===q.ans;
-  btns.forEach((b,j)=>{b.disabled=true;if(j===q.ans)b.classList.add("correct");else if(j===k)b.classList.add("wrong");});
-  const fb=document.getElementById("fb");
-  fb.className="feedback show "+(ok?"ok":"no");
-  fb.innerHTML=`<b>${ok?"Riktig!":"Ikke helt."}</b> ${q.e}`;
-  results.push({t:q.t,ok});
-  const next=document.getElementById("next");next.hidden=false;next.textContent=i===order.length-1?"Se resultat":"Neste";next.focus();
-}
-function finish(){
-  const n=results.filter(r=>r.ok).length;
-  counter.textContent="Ferdig";
-  card.innerHTML=`<p class="eyebrow">Resultat</p><div class="big">${n} / ${order.length}</div>
-   <p>${n===order.length?"Alt riktig – fantastisk!":n>=order.length*0.7?"Bra jobba! Se over de du bommet på.":"Øv litt til på de røde, så prøver du igjen."}</p>
-   <ul class="review">${results.map(r=>`<li><span class="dot ${r.ok?"":"no"}"></span><span>${r.t}</span></li>`).join("")}</ul>
-   <div class="actions"><button class="btn" id="again">Prøv igjen</button></div>`;
-  document.getElementById("again").addEventListener("click",start);
-}
-document.getElementById("reset").addEventListener("click",start);
-start();
+  ]
+});
 </script>
 </body>
 </html>
