@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oscars brøkprøve</title>
+<title>Testprøve 1 · Brøk og desimaltall</title>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap">
 <style>
@@ -25,6 +25,9 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px
 header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
 h1{font-family:var(--display);font-weight:800;font-size:1.6rem;margin:0;text-wrap:balance}
 .sub{color:var(--muted);font-size:.95rem;margin:0}
+.tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn.small{padding:6px 12px;font-size:.85rem}
+.back{color:var(--muted);font-size:.9rem}
 .progress{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
 .progress>div{height:100%;background:var(--accent);width:0;transition:width .3s}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px}
@@ -68,10 +71,10 @@ pre{font-size:.9rem;background:var(--bg);border:1px solid var(--line);border-rad
 <div class="wrap">
   <header>
     <div>
-      <h1>Oscars brøkprøve</h1>
+      <h1>Testprøve 1 · Brøk og desimaltall</h1>
       <p class="sub">Brøk og desimaltall · flervalg · ingen hjelpemidler</p>
     </div>
-    <p class="sub" id="counter"></p>
+    <div class="tools"><p class="sub" id="counter"></p><button class="btn ghost small" id="reset" type="button">Start på nytt</button><a class="back" href="../">Til oversikten</a></div>
   </header>
   <div class="progress"><div id="bar"></div></div>
   <div class="card" id="card"></div>
@@ -180,6 +183,7 @@ function finish(){
    <div class="actions"><button class="btn" id="again">Prøv igjen</button></div>`;
   document.getElementById("again").addEventListener("click",start);
 }
+document.getElementById("reset").addEventListener("click",start);
 start();
 </script>
 </body>
