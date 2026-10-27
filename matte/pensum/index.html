@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pensum 8. trinn</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: intro + fag-tabs; each fag = themed cards of competence goals with a link to Udir. Hash routes per fag. */
+:root{
+  --bg:#f6f8fb; --paper:#ffffff; --fg:#1d2433; --muted:#5d6678; --line:#d5dbe6;
+  --accent:#2f5fb3; --accent-soft:#e3ebfa;
+  --mat:#2f5fb3; --nor:#c2493a; --eng:#1f8a6b; --nat:#5b8c1f; --saf:#b8771a; --rle:#7a4fb3;
+  --display:"Nunito",system-ui,sans-serif; --body:"Source Sans 3",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#141922; --paper:#1d2431; --fg:#eef1f6; --muted:#9aa4b8; --line:#333c4d;
+  --accent:#7ea4ea; --accent-soft:#23324d;
+  --mat:#7ea4ea; --nor:#f08a7c; --eng:#5fcfa8; --nat:#9fd45a; --saf:#f0b35a; --rle:#b79af0; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.5}
+.wrap{max-width:900px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left,0px)) 48px}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.back{color:var(--muted);font-size:.9rem;text-decoration:none}
+.back:hover{color:var(--accent)}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.05;margin:6px 0 8px;text-wrap:balance}
+.lead{color:var(--muted);margin:0 0 20px;max-width:62ch}
+.note{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:14px 18px;margin:0 0 24px;font-size:.95rem}
+.note b{font-family:var(--display)}
+.note ul{margin:8px 0 0;padding-left:20px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px;padding:0;list-style:none}
+.tab{font-family:var(--display);font-weight:800;font-size:.95rem;border:2px solid var(--line);background:var(--paper);color:var(--fg);border-radius:999px;padding:7px 14px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.tab .dot{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.tab[aria-selected="true"]{border-color:var(--c);background:var(--c);color:#fff}
+.tab[aria-selected="true"] .dot{background:#fff}
+.tab:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.panel{display:none}
+.panel.on{display:block}
+.fh{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:0 0 6px}
+.fh h2{font-family:var(--display);font-weight:900;font-size:1.6rem;margin:0;color:var(--c)}
+.fh .src{font-size:.85rem;color:var(--muted)}
+.fh .src a{color:var(--accent)}
+.scope{font-size:.95rem;color:var(--muted);margin:0 0 18px;max-width:70ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:12px;padding:14px 16px;min-width:0}
+.card h3{font-family:var(--display);font-weight:800;font-size:1.05rem;margin:0 0 8px}
+.card ul{margin:0;padding-left:18px;font-size:.95rem}
+.card li{margin:4px 0}
+.card li+li{border-top:0}
+.tverr{margin-top:28px}
+.tverr h2{font-family:var(--display);font-weight:800;font-size:1.2rem;margin:0 0 10px}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.92rem;flex:1 1 240px;min-width:0}
+.chip b{font-family:var(--display);display:block;margin-bottom:2px}
+footer{margin-top:36px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="../">← Til Prøvehjørnet</a>
+    <span class="back">Oppdatert 27. okt 2026</span>
+  </div>
+  <h1>Pensum 8. trinn</h1>
+  <p class="lead">Hva elevene skal kunne i de viktigste fagene på ungdomsskolen, oppsummert fra de gjeldende læreplanene (LK20, skoleåret 2026/27).</p>
+
+  <div class="note">
+    <b>Slik henger det sammen</b>
+    <ul>
+      <li>Læreplanene gjelder for hele landet. I <b>matematikk</b> finnes egne mål for 8. trinn. I norsk, engelsk, naturfag, samfunnsfag og KRLE er målene satt for 8.–10. trinn samlet («etter 10. trinn»), og hver skole fordeler dem over tre år.</li>
+      <li>Fordelingen på 8. trinn styres derfor av skolens årsplaner og læreverk. Ringstabekk publiserer ikke årsplanene åpent – spør kontaktlærer eller se i skolens læringsplattform for årets fordeling.</li>
+      <li>Alle fem læreplaner fikk ny versjon fra 1. august 2026. Lenker under går til Udir.</li>
+    </ul>
+  </div>
+
+  <ul class="tabs" role="tablist">
+    <li><button class="tab" role="tab" data-p="mat" style="--c:var(--mat)"><span class="dot"></span>Matematikk</button></li>
+    <li><button class="tab" role="tab" data-p="nor" style="--c:var(--nor)"><span class="dot"></span>Norsk</button></li>
+    <li><button class="tab" role="tab" data-p="eng" style="--c:var(--eng)"><span class="dot"></span>Engelsk</button></li>
+    <li><button class="tab" role="tab" data-p="nat" style="--c:var(--nat)"><span class="dot"></span>Naturfag</button></li>
+    <li><button class="tab" role="tab" data-p="saf" style="--c:var(--saf)"><span class="dot"></span>Samfunnsfag</button></li>
+    <li><button class="tab" role="tab" data-p="rle" style="--c:var(--rle)"><span class="dot"></span>KRLE</button></li>
+  </ul>
+
+  <!-- MATEMATIKK -->
+  <section class="panel" id="p-mat" style="--c:var(--mat)">
+    <div class="fh"><h2>Matematikk</h2><span class="src">MAT01-06 · <a href="https://www.udir.no/lk20/mat01-06/kompetansemaal-og-vurdering/kv1027">Kompetansemål etter 8. trinn (Udir)</a></span></div>
+    <p class="scope">Her er målene satt spesielt for 8. trinn. Alt under skal være dekket i løpet av skoleåret.</p>
+    <div class="grid">
+      <div class="card"><h3>Tall og regning</h3><ul>
+        <li>Regne med potenser og kvadratrøtter, og forklare framgangsmåte og resultat</li>
+        <li>Bruke kommutative, assosiative og distributive regneregler til hoderegning og skriftlig regning</li>
+        <li>Faktorisering og primtallsfaktorisering – og bruke det i brøkregning</li></ul></div>
+      <div class="card"><h3>Algebra</h3><ul>
+        <li>Utforske og generalisere geometriske mønstre og tallmønstre, med egne ord og algebraisk</li>
+        <li>Lage og forklare regneuttrykk med tall, variabler og konstanter fra praktiske situasjoner</li></ul></div>
+      <div class="card"><h3>Likninger og ulikheter</h3><ul>
+        <li>Lage og løse likninger fra praktiske situasjoner, og vurdere løsningene kritisk</li>
+        <li>Bruke ulike strategier for å løse ulikheter og vurdere om løsningene er gyldige</li></ul></div>
+      <div class="card"><h3>Funksjoner</h3><ul>
+        <li>Beskrive, sammenligne og utforske funksjoner knyttet til praktiske situasjoner</li>
+        <li>Representere funksjoner med situasjoner, tabeller, grafer og uttrykk – og vise sammenhengen mellom dem</li></ul></div>
+      <div class="card"><h3>Programmering</h3><ul>
+        <li>Utforske hvordan algoritmer kan lages, testes og forbedres med programmering</li></ul></div>
+    </div>
+  </section>
+
+  <!-- NORSK -->
+  <section class="panel" id="p-nor" style="--c:var(--nor)">
+    <div class="fh"><h2>Norsk</h2><span class="src">NOR01-08 · <a href="https://www.udir.no/lk20/nor01-08/kompetansemaal-og-vurdering/kv1110">Kompetansemål etter 10. trinn (Udir)</a></span></div>
+    <p class="scope">Mål for hele ungdomsskolen (8.–10.). Lesing, skriving, muntlig og språkkunnskap jobbes med hvert år; sidemål (nynorsk) starter normalt på 8. trinn.</p>
+    <div class="grid">
+      <div class="card"><h3>Lesing og litteratur</h3><ul>
+        <li>Lese skjønnlitteratur og sakprosa på bokmål og nynorsk, og oversatt fra samisk og andre språk – reflektere over formål, innhold, sjanger og virkemidler</li>
+        <li>Sammenligne og tolke romaner, noveller, lyrikk og andre tekster ut fra historisk kontekst og egen samtid</li>
+        <li>Beskrive og reflektere over egne lesestrategier</li>
+        <li>Lytte til og lese tekster på svensk og dansk</li>
+        <li>Utforske hvordan tekster framstiller unges livssituasjon</li></ul></div>
+      <div class="card"><h3>Skriving</h3><ul>
+        <li>Skrive tekster med god tekstbinding og riktig tegnsetting; mestre rettskriving og ordbøying på hovedmål og sidemål</li>
+        <li>Informere, fortelle, argumentere og reflektere i ulike sjangre, tilpasset mottaker og medium</li>
+        <li>Bruke kilder kritisk, markere sitater og vise til kilder</li>
+        <li>Eksperimentere med sjangre på kreative måter; lage sammensatte tekster og begrunne valg</li></ul></div>
+      <div class="card"><h3>Muntlig</h3><ul>
+        <li>Bruke fagspråk og argumentere saklig i diskusjoner, samtaler og presentasjoner</li>
+        <li>Gjenkjenne og bruke språklige virkemidler og retoriske appellformer</li></ul></div>
+      <div class="card"><h3>Språk og grammatikk</h3><ul>
+        <li>Bruke kunnskap om grammatikk, tekststruktur og sjanger i arbeid med tekster</li>
+        <li>Forklare den historiske bakgrunnen for bokmål og nynorsk og statusen til de offisielle språkene i Norge</li>
+        <li>Utforske språklig variasjon og mangfold i Norge, og holdninger til dialekter og språk</li>
+        <li>Vurdere hvordan digitale medier påvirker språk og kommunikasjon</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ENGELSK -->
+  <section class="panel" id="p-eng" style="--c:var(--eng)">
+    <div class="fh"><h2>Engelsk</h2><span class="src">ENG01-06 · <a href="https://www.udir.no/lk20/eng01-06/kompetansemaal-og-vurdering/kv1033">Kompetansemål etter 10. trinn (Udir)</a></span></div>
+    <p class="scope">Mål for hele ungdomsskolen (8.–10.). Faget har skriftlig og muntlig standpunkt på 10. trinn.</p>
+    <div class="grid">
+      <div class="card"><h3>Språklæring og kommunikasjon</h3><ul>
+        <li>Bruke varierte strategier og digitale ressurser i språklæring og tekstskaping</li>
+        <li>Bruke sentrale uttalemønstre; forstå varianter av engelsk</li>
+        <li>Uttrykke seg med flyt og variert ordforråd tilpasset formål, mottaker og situasjon</li>
+        <li>Stille spørsmål og følge opp innspill i samtaler</li></ul></div>
+      <div class="card"><h3>Grammatikk og struktur</h3><ul>
+        <li>Bruke kunnskap om ordklasser og setningsstruktur i egne tekster</li>
+        <li>Følge regler for rettskriving, ordbøying, setnings- og tekststruktur</li>
+        <li>Sammenligne engelsk med andre språk eleven kan, og bruke det i egen læring</li></ul></div>
+      <div class="card"><h3>Lesing og skriving</h3><ul>
+        <li>Lese, diskutere og videreformidle ulike tekster, inkludert selvvalgte</li>
+        <li>Tolke og reflektere over engelskspråklig skjønnlitteratur, inkludert ungdomslitteratur</li>
+        <li>Lese sakprosa og vurdere hvor pålitelige kildene er; bruke kilder kritisk</li>
+        <li>Skrive formelle og uformelle tekster med struktur og sammenheng; bearbeide egne tekster</li></ul></div>
+      <div class="card"><h3>Kultur og samfunn</h3><ul>
+        <li>Engelskens rolle i Norge og verden</li>
+        <li>Urfolk i den engelskspråklige verden og i Norge</li>
+        <li>Levemåter, tenkesett og mangfold i den engelskspråklige verden</li>
+        <li>Kulturelle uttrykk fra ulike medier knyttet til egne interesser</li></ul></div>
+    </div>
+  </section>
+
+  <!-- NATURFAG -->
+  <section class="panel" id="p-nat" style="--c:var(--nat)">
+    <div class="fh"><h2>Naturfag</h2><span class="src">NAT01-05 · <a href="https://www.udir.no/lk20/nat01-05/kompetansemaal-og-vurdering/kv1078">Kompetansemål etter 10. trinn (Udir)</a></span></div>
+    <p class="scope">Mål for hele ungdomsskolen (8.–10.). Temaene fordeles over tre år; forsøk og utforskende metode går igjen hvert år.</p>
+    <div class="grid">
+      <div class="card"><h3>Naturvitenskapelig metode</h3><ul>
+        <li>Stille spørsmål, lage hypoteser, identifisere variabler og samle data</li>
+        <li>Analysere data, lage forklaringer og vurdere kvaliteten på utforskinger</li>
+        <li>Bruke og lage modeller, og kjenne styrker og begrensninger</li>
+        <li>Risikovurdering og sikkerhet ved forsøk</li>
+        <li>Dagsaktuell forskning og hvordan ny kunnskap blir til</li></ul></div>
+      <div class="card"><h3>Kjemi</h3><ul>
+        <li>Kjemiske reaksjoner, massebevaring og forbrenningsreaksjoner</li>
+        <li>Atommodeller og periodesystemet – egenskaper til grunnstoffer og forbindelser</li></ul></div>
+      <div class="card"><h3>Fysikk og energi</h3><ul>
+        <li>Energibevaring og energikvalitet; omdanne, transportere og lagre energi</li>
+        <li>Hvordan energiproduksjon og -bruk påvirker miljøet</li>
+        <li>Drivhuseffekten og årsaker til klimaendringer</li></ul></div>
+      <div class="card"><h3>Biologi</h3><ul>
+        <li>Evolusjonsteorien og biologisk mangfold</li>
+        <li>Celler hos ulike organismer – oppbygning og funksjon</li>
+        <li>Økosystemer: abiotiske og biotiske faktorer, kretsløp</li>
+        <li>Fotosyntese, celleånding og karbonkretsløpet</li>
+        <li>Naturressurser, tap av mangfold og samisk tradisjonskunnskap</li></ul></div>
+      <div class="card"><h3>Kropp og helse</h3><ul>
+        <li>Seksuell og reproduktiv helse</li>
+        <li>Nervesystemet og hormonsystemet; rusmidler, legemidler, miljøgifter og doping</li>
+        <li>Immunforsvaret og vaksiner</li></ul></div>
+      <div class="card"><h3>Teknologi og geofag</h3><ul>
+        <li>Lage teknologiske systemer med sender og mottaker</li>
+        <li>Bruke programmering til å utforske naturfaglige fenomener</li>
+        <li>Platetektonikk og jordas utvikling</li></ul></div>
+    </div>
+  </section>
+
+  <!-- SAMFUNNSFAG -->
+  <section class="panel" id="p-saf" style="--c:var(--saf)">
+    <div class="fh"><h2>Samfunnsfag</h2><span class="src">SAF01-05 · <a href="https://www.udir.no/lk20/saf01-05/kompetansemaal-og-vurdering/kv1151">Kompetansemål etter 10. trinn (Udir)</a></span></div>
+    <p class="scope">Mål for hele ungdomsskolen (8.–10.). Faget dekker historie, geografi og samfunnskunnskap samlet.</p>
+    <div class="grid">
+      <div class="card"><h3>Metode og kildekritikk</h3><ul>
+        <li>Bruke samfunnsfaglige metoder og digitale ressurser i egne undersøkelser, og vurdere funnene</li>
+        <li>Vurdere kilder; forstå hvordan algoritmer og ensrettede kilder påvirker forståelsen vår</li>
+        <li>Drøfte hvordan framstillinger av fortiden påvirker holdninger og handlinger</li></ul></div>
+      <div class="card"><h3>Historie</h3><ul>
+        <li>Teknologi som endringsfaktor for mennesker, samfunn og natur</li>
+        <li>Hvordan mennesker har kjempet for endringer, påvirket av geografi og historisk kontekst</li>
+        <li>Årsaker til og konsekvenser av sentrale konflikter, terror og folkemord (bl.a. holocaust), og hvordan ekstremisme forebygges</li>
+        <li>Fornorskingen av samene og de nasjonale minoritetene</li></ul></div>
+      <div class="card"><h3>Geografi og bærekraft</h3><ul>
+        <li>Hvordan politiske, geografiske og historiske forhold påvirker levekår, bosetting og demografi</li>
+        <li>Dimensjoner ved bærekraftig utvikling og tiltak for mer bærekraftige samfunn</li></ul></div>
+      <div class="card"><h3>Samfunn, politikk og økonomi</h3><ul>
+        <li>Det politiske systemet og velferdssamfunnet i Norge</li>
+        <li>Hvem som har makt i samfunnet, og hvordan de begrunner standpunktene sine</li>
+        <li>Menneskerettigheter, urfolksrettigheter og internasjonalt samarbeid</li>
+        <li>Lover, regler og normer – og konsekvenser av brudd</li>
+        <li>Arbeid, inntekt og forbruk – personlig økonomi og livskvalitet</li></ul></div>
+      <div class="card"><h3>Identitet og digitalt liv</h3><ul>
+        <li>Identitet, selvbilde og egne grenser i ulike fellesskap; håndtere påvirkning og uønskede hendelser</li>
+        <li>Mangfold i identiteter, levesett og kulturuttrykk</li>
+        <li>Digitale spor, personvern og opphavsrett</li>
+        <li>Digital deltakelse og samfunnsdebatt</li></ul></div>
+    </div>
+  </section>
+
+  <!-- KRLE -->
+  <section class="panel" id="p-rle" style="--c:var(--rle)">
+    <div class="fh"><h2>KRLE</h2><span class="src">RLE01-04 · <a href="https://www.udir.no/lk20/rle01-04/kompetansemaal-og-vurdering/kv1145">Kompetansemål etter 10. trinn (Udir)</a></span></div>
+    <p class="scope">Kristendom, religion, livssyn og etikk. Mål for hele ungdomsskolen (8.–10.).</p>
+    <div class="grid">
+      <div class="card"><h3>Religioner og livssyn</h3><ul>
+        <li>Sentrale trekk ved kristendom og andre religioner og livssyn, og utbredelsen i dag</li>
+        <li>Religionenes rolle i historiske endringsprosesser, globalt og nasjonalt</li>
+        <li>Livssynshumanisme og andre ikke-religiøse livssyn</li>
+        <li>Religiøst mangfold utenfor etablerte trossamfunn; samiske og andre urfolks tradisjoner</li>
+        <li>Fagbegreper og kritisk bruk av kilder om religion og livssyn</li>
+        <li>Syn på kjønn og seksualitet i ulike religioner; religion i medier og populærkultur</li></ul></div>
+      <div class="card"><h3>Etikk og filosofi</h3><ul>
+        <li>Etiske ideer fra sentrale skikkelser i religiøse tradisjoner og i filosofihistorien, brukt på aktuelle spørsmål</li>
+        <li>Utforske andres perspektiv og håndtere uenighet</li>
+        <li>Eksistensielle spørsmål om å vokse opp i et mangfoldig, globalt samfunn</li>
+        <li>Etiske problemstillinger knyttet til kommunikasjon, menneskerettigheter, bærekraft og fattigdom</li></ul></div>
+    </div>
+  </section>
+
+  <div class="tverr">
+    <h2>Tverrfaglige temaer (går igjen i alle fag)</h2>
+    <div class="chips">
+      <div class="chip"><b>Folkehelse og livsmestring</b>Helse, identitet, følelser, grenser, økonomi, digitalt liv.</div>
+      <div class="chip"><b>Demokrati og medborgerskap</b>Deltakelse, ytringsfrihet, kildekritikk, menneskerettigheter.</div>
+      <div class="chip"><b>Bærekraftig utvikling</b>Klima, miljø, ressurser, sosial og økonomisk bærekraft.</div>
+    </div>
+  </div>
+
+  <footer>Kilde: Utdanningsdirektoratet, <a href="https://www.udir.no/lk20/">Læreplanverket LK20</a>. Målene er forkortet og sortert etter tema her; ordlyden i lenkene er den gjeldende.</footer>
+</div>
+
+<script>
+const tabs=[...document.querySelectorAll(".tab")],panels=[...document.querySelectorAll(".panel")];
+function show(id){
+  if(!panels.some(p=>p.id==="p-"+id))id="mat";
+  tabs.forEach(t=>t.setAttribute("aria-selected",t.dataset.p===id));
+  panels.forEach(p=>p.classList.toggle("on",p.id==="p-"+id));
+}
+tabs.forEach(t=>t.addEventListener("click",()=>{history.replaceState(null,"","#"+t.dataset.p);show(t.dataset.p);}));
+window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
+show(location.hash.slice(1)||"mat");
+</script>
+</body>
+</html>
