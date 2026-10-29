@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testprøve 1a · Brøk og desimaltall</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/quiz.js"></script>
+<script>
+const numberLine=`<figure><svg viewBox="0 0 520 80" role="img" aria-label="Tallinje fra 0 til 1 med en pil">
+<line x1="20" y1="50" x2="500" y2="50" stroke="currentColor" stroke-width="2"/>
+<polygon points="500,45 510,50 500,55" fill="currentColor"/>
+${[0,1,2,3,4,5].map(i=>`<line x1="${40+i*80}" y1="42" x2="${40+i*80}" y2="58" stroke="currentColor" stroke-width="2"/>`).join("")}
+<text x="40" y="76" text-anchor="middle" font-size="14" fill="currentColor" font-weight="700">0</text>
+<text x="440" y="76" text-anchor="middle" font-size="14" fill="currentColor" font-weight="700">1</text>
+<line x1="280" y1="8" x2="280" y2="34" stroke="var(--accent)" stroke-width="3"/>
+<polygon points="273,30 287,30 280,40" fill="var(--accent)"/>
+</svg></figure>`;
+
+const grid=`<figure><svg viewBox="0 0 260 210" role="img" aria-label="Rutenett med 5 kolonner og 4 rader">
+${Array.from({length:20},(_,i)=>`<rect x="${5+(i%5)*50}" y="${5+Math.floor(i/5)*50}" width="50" height="50" fill="var(--paper)" stroke="currentColor" stroke-width="2"/>`).join("")}
+</svg></figure>`;
+
+const code=`<pre>PROGRAM 1
+tall = int(input("Skriv inn et tall: "))
+svar = tall * 3
+print(svar)
+
+PROGRAM 2
+tall = float(input("Skriv inn et tall: "))
+svar = tall / 2
+print("Halvparten er", svar)</pre>`;
+
+quiz({
+  id: "brok-1a",
+  title: "Testprøve 1a · Brøk og desimaltall",
+  sub: "Matematikk 8. trinn · flervalg · ingen hjelpemidler",
+  back: "../",
+  goalsTitle: "Resultat per tema",
+  figs: { numberLine: numberLine, grid: grid, kode: code },
+  goals: {
+    stor: "Sammenligne og ordne tall",
+    brok: "Brøkregning",
+    des: "Regning med desimaltall",
+    mal: "Målenheter",
+    pros: "Brøk, desimaltall og prosent",
+    tall: "Tallinje og brøkdeler av figurer",
+    prog: "Programmering"
+  },
+  questions: [
+ {t:"Størrelsesorden",g:"stor",q:"Hvilken rekkefølge er fra minst til størst?",
+  o:["0,08 &lt; 0,29 &lt; 0,4 &lt; 0,404","0,08 &lt; 0,29 &lt; 0,404 &lt; 0,4","0,4 &lt; 0,404 &lt; 0,29 &lt; 0,08","0,29 &lt; 0,08 &lt; 0,4 &lt; 0,404"],a:0,
+  e:"Sammenlign plass for plass: 0,08 (null tideler) er minst. 0,404 er litt mer enn 0,400."},
+ {t:"Brøkregning",g:"brok",q:`Regn ut ${F(5,6)} – ${F(3,4)}.`,
+  o:[F(1,12),F(2,2),F(1,2),F(8,10)],a:0,
+  e:`Fellesnevner 12: ${F(10,12)} – ${F(9,12)} = ${F(1,12)}.`},
+ {t:"Desimaltall",g:"des",q:"Regn ut 3,25 · 40.",o:["130","120","1300","13"],a:0,
+  e:"3 · 40 = 120 og 0,25 · 40 = 10. Til sammen 130."},
+ {t:"Målenheter",g:"mal",q:"3,6 m = ____ cm",o:["360 cm","36 cm","3600 cm","0,36 cm"],a:0,e:"1 m = 100 cm, så 3,6 · 100 = 360."},
+ {t:"Målenheter",g:"mal",q:"480 mm = ____ dm",o:["4,8 dm","48 dm","0,48 dm","4800 dm"],a:0,e:"1 dm = 100 mm, så 480 : 100 = 4,8."},
+ {t:"Målenheter",g:"mal",q:"5200 g = ____ kg",o:["5,2 kg","52 kg","520 kg","0,52 kg"],a:0,e:"1 kg = 1000 g, så 5200 : 1000 = 5,2."},
+ {t:"Målenheter",g:"mal",q:"36 kg = ____ tonn",o:["0,036 tonn","0,36 tonn","3,6 tonn","36 000 tonn"],a:0,e:"1 tonn = 1000 kg, så 36 : 1000 = 0,036."},
+ {t:"Tekstoppgave",g:"brok",q:`På en strand er det 120 personer. ${F(1,3)} bader, ${F(1,4)} spiller volleyball, og resten ligger på stranda. Av dem som ligger på stranda spiser ${F(3,5)} is. Hvor mange på stranda spiser <u>ikke</u> is?`,
+  o:["20","30","18","40"],a:0,
+  e:"Bader: 120 : 3 = 40. Volleyball: 120 : 4 = 30. På stranda: 120 – 40 – 30 = 50. Spiser is: 50 : 5 · 3 = 30. Ikke is: 50 – 30 = 20."},
+ {t:"Programmering",g:"prog",fig:"kode",q:"Hva er <u>ulikt</u> med programmene?",
+  o:["Program 1 godtar bare heltall og ganger med 3; program 2 godtar desimaltall, deler på 2 og skriver en tekst foran svaret",
+     "Program 1 ber om et tall, program 2 gjør det ikke","Begge gjør nøyaktig det samme","Program 2 kan ikke kjøre fordi det mangler en linje"],a:0,
+  e:"Likt: begge leser inn et tall, regner ut og skriver ut. Ulikt: int/float, · 3 mot : 2, og print med tekst i program 2."},
+ {t:"Tallinje",g:"tall",fig:"numberLine",q:"Hvilket tall peker pila på?",
+  o:[F(3,5),F(2,5),F(3,4),F(1,3)],a:0,e:"Tallinja fra 0 til 1 er delt i 5 like deler. Pila står på den tredje streken."},
+ {t:"Brøkdel av figur",g:"tall",fig:"grid",q:`Figuren har 20 ruter. Hvor mange ruter må du fargelegge for å vise ${F(3,5)} av figuren?`,
+  o:["12 ruter","4 ruter","15 ruter","8 ruter"],a:0,e:"20 : 5 = 4 ruter i hver femtedel. 3 · 4 = 12."},
+ {t:"Brøkdel av tall",g:"brok",q:`Regn ut ${F(5,8)} av 240.`,o:["150","30","1200","120"],a:0,e:"240 : 8 = 30. 30 · 5 = 150."},
+ {t:"Brøk, desimaltall og prosent",g:"pros",q:"Hvilken rad i tabellen brøk – desimaltall – prosent er riktig og forkortet mest mulig?",
+  o:[`${F(7,20)} – 0,35 – 35 %`,`${F(35,100)} – 0,35 – 35 %`,`${F(7,20)} – 0,7 – 35 %`,`${F(7,20)} – 0,35 – 3,5 %`],a:0,
+  e:`35 % = 0,35 = ${F(35,100)}, som forkortes med 5 til ${F(7,20)}.`},
+ {t:"Sammenligne brøker",g:"stor",q:`Hvilken brøk er størst av ${F(3,4)} og ${F(5,7)}?`,
+  o:[`${F(3,4)}, fordi ${F(21,28)} &gt; ${F(20,28)}`,`${F(5,7)}, fordi 5 er mer enn 3`,`${F(5,7)}, fordi 7 er mer enn 4`,"De er like store"],a:0,
+  e:"Fellesnevner 28 (eller desimaltall: 0,75 og ca. 0,714)."},
+ {t:"Rekkefølge",g:"stor",q:`Skriv tallene fra minst til størst: ${F(1,2)}, ${F(4,9)}, 45 %, 0,4999.`,
+  o:[`${F(4,9)} &lt; 45 % &lt; 0,4999 &lt; ${F(1,2)}`,`45 % &lt; ${F(4,9)} &lt; 0,4999 &lt; ${F(1,2)}`,`${F(4,9)} &lt; 45 % &lt; ${F(1,2)} &lt; 0,4999`,`${F(1,2)} &lt; 0,4999 &lt; 45 % &lt; ${F(4,9)}`],a:0,
+  e:"Gjør alt om til desimaltall: 4/9 ≈ 0,444; 45 % = 0,45; 0,4999; 1/2 = 0,5."},
+ {t:"Multiplisere brøker",g:"brok",q:`Du tegner et rektangel, deler det i 4 like deler den ene veien og skraverer 3 av dem, deler i 5 like deler den andre veien og skraverer 2. Hva viser rutene som er skravert begge veier, og hva er svaret på ${F(3,4)} · ${F(2,5)}?`,
+  o:[`6 av 20 ruter, altså ${F(3,10)}`,`5 av 9 ruter, altså ${F(5,9)}`,`6 av 9 ruter, altså ${F(2,3)}`,`3 av 4 ruter, altså ${F(3,4)}`],a:0,
+  e:"3 · 2 = 6 ruter er skravert begge veier, av 4 · 5 = 20 ruter totalt. 6/20 = 3/10."}
+  ]
+});
+</script>
+</body>
+</html>
