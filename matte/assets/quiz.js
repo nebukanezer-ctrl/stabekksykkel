@@ -81,13 +81,52 @@ sup{font-size:.7em;line-height:0}
     return arr;
   }
 
-  window.quiz = function (cfg) {
-    var id = cfg.id || location.pathname.replace(/\/+$/, "").split("/").pop();
-    var KEY = "prove:" + id, BEST = KEY + ":best";
-    var N = cfg.questions.length;
+  var SRC = document.currentScript && document.currentScript.src;
 
-    function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-    function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function loadProfile(cb) {
+    if (window.Prove) return cb();
+    var done = false;
+    function fin() { if (!done) { done = true; cb(); } }
+    if (!SRC) return fin();
+    var sc = document.createElement("script");
+    sc.src = SRC.replace(/quiz\.js(\?.*)?$/, "profile.js");
+    sc.onload = fin;
+    sc.onerror = fin;
+    document.head.appendChild(sc);
+  }
+
+  /* Reserve hvis profile.js ikke kunne lastes: bare lokal lagring. */
+  function localOnly() {
+    function g(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+    function p(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+    return {
+      state: function (id) { return g("prove:" + id); },
+      attempts: function (id) { return g("prove:" + id + ":att") || []; },
+      save: function (id, st) { st.t = Date.now(); p("prove:" + id, st); },
+      addAttempt: function (id, a) {
+        var l = (g("prove:" + id + ":att") || []).filter(function (x) { return x.ts !== a.ts; });
+        l.push(a); p("prove:" + id + ":att", l);
+      }
+    };
+  }
+
+  function fmtDate(ts) {
+    try { return new Date(ts).toLocaleDateString("nb-NO", { day: "numeric", month: "short" }); }
+    catch (e) { return ""; }
+  }
+
+  window.quiz = function (cfg) {
+    document.getElementById("app").innerHTML = '<div class="wrap"><p class="sub">Laster …</p></div>';
+    loadProfile(function () {
+      var P = window.Prove || localOnly();
+      if (window.Prove && window.Prove.ready) window.Prove.ready.then(function () { run(cfg, P); }, function () { run(cfg, P); });
+      else run(cfg, P);
+    });
+  };
+
+  function run(cfg, P) {
+    var id = cfg.id || location.pathname.replace(/\/+$/, "").split("/").pop();
+    var N = cfg.questions.length;
 
     function fresh() {
       return {
@@ -98,14 +137,12 @@ sup{font-size:.7em;line-height:0}
       };
     }
     function load() {
-      try {
-        var s = JSON.parse(lsGet(KEY));
-        if (s && s.v === 1 && s.perm && s.perm.length === N &&
-            s.perm.every(function (p, k) { return p.length === cfg.questions[k].o.length; })) return s;
-      } catch (e) {}
+      var s = P.state(id);
+      if (s && s.v === 1 && s.perm && s.perm.length === N &&
+          s.perm.every(function (p, k) { return p.length === cfg.questions[k].o.length; })) return s;
       return null;
     }
-    function save() { lsSet(KEY, JSON.stringify(st)); }
+    function save() { P.save(id, st); }
 
     var st = load(), resumed = !!(st && st.results.length && st.i < N);
     if (!st) { st = fresh(); save(); }
@@ -188,8 +225,6 @@ sup{font-size:.7em;line-height:0}
     function finish() {
       var results = st.results;
       var n = results.filter(function (r) { return r.ok; }).length;
-      var prev = parseInt(lsGet(BEST), 10);
-      if (isNaN(prev) || n > prev) lsSet(BEST, String(n));
       counter.textContent = "Ferdig";
       var by = {};
       results.forEach(function (r) {
@@ -197,6 +232,11 @@ sup{font-size:.7em;line-height:0}
         by[r.g].t++;
         if (r.ok) by[r.g].ok++;
       });
+      if (!st.fin) {
+        st.fin = Date.now();
+        save();
+        P.addAttempt(id, { ts: st.fin, score: n, total: N, by: by });
+      }
       var rows = Object.keys(cfg.goals).filter(function (g) { return by[g]; }).map(function (g) {
         var s = by[g];
         return '<li><span class="dot ' + (s.ok === s.t ? "" : "no") + '"></span><span>' + cfg.goals[g] + '</span><span class="sc">' + s.ok + "/" + s.t + "</span></li>";
@@ -205,10 +245,17 @@ sup{font-size:.7em;line-height:0}
       var msg = n === N ? "Alt riktig – fantastisk!" :
         n >= N * 0.7 ? "Bra jobba! Se over det du bommet på." :
         "Øv litt til på det som er rødt, så prøver du igjen.";
+      var hist = P.attempts(id).slice().sort(function (a, b) { return b.ts - a.ts; }).slice(0, 8);
+      var histHtml = hist.length > 1
+        ? '<p class="eyebrow" style="margin-top:18px">Alle forsøk</p><ul class="review">' + hist.map(function (a, k) {
+            return "<li><span>" + fmtDate(a.ts) + (k === 0 ? " (dette forsøket)" : "") + '</span><span class="sc">' + a.score + "/" + a.total + "</span></li>";
+          }).join("") + "</ul>"
+        : "";
       card.innerHTML =
         '<p class="eyebrow">Resultat</p><div class="big">' + n + " / " + N + "</div><p>" + msg + "</p>" +
         '<p class="eyebrow" style="margin-top:18px">' + (cfg.goalsTitle || "Resultat per kompetansemål") + '</p><ul class="review">' + rows + "</ul>" +
         (missed.length ? '<p class="missed">Bommet på oppgave: ' + missed.join(", ") + ".</p>" : "") +
+        histHtml +
         '<div class="actions"><button class="btn" id="again">Prøv på nytt</button></div>';
       document.getElementById("again").addEventListener("click", restart);
     }
@@ -230,5 +277,5 @@ sup{font-size:.7em;line-height:0}
       note.hidden = false;
     }
     render();
-  };
+  }
 })();
