@@ -41,7 +41,8 @@ h2 .tag{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(
 .card .status .bar{flex:1;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
 .card .status .bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
 .card .status.done .bar i{background:#2f8f5b}
-.card .status .st{white-space:nowrap;font-variant-numeric:tabular-nums}
+.card .status .st{text-align:right;font-variant-numeric:tabular-nums}
+.card .status .bar{min-width:60px}
 .soon{border-style:dashed;color:var(--muted);display:flex;gap:12px;align-items:center;padding:16px 18px;border:1px dashed var(--line);border-radius:14px;font-size:.95rem}
 footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
 @media (max-width:620px){.hero{grid-template-columns:1fr;padding-top:24px}.hero svg{max-width:220px}.card{grid-template-columns:52px 1fr}.card .num{width:52px;height:52px;font-size:1.2rem}.card .meta{grid-column:2;align-items:flex-start;flex-direction:row;gap:12px}}
@@ -128,6 +129,28 @@ footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid 
         <div class="meta"><span>27. okt 2026</span><span class="go">Start →</span></div>
       <div class="status" hidden><div class="bar"><i></i></div><span class="st"></span></div></a>
     </li>
+    <li>
+      <a class="card" href="alg-3/" data-quiz="alg-3" data-n="18">
+        <div class="num">3</div>
+        <div>
+          <p class="t">Testprøve 3 · Verdien av algebraiske uttrykk</p>
+          <p class="d">18 flervalgsoppgaver fra kapittel 3A: sette inn tall for variabler (også negative tall, brøker og desimaltall), regnerekkefølge, tabeller og formler.</p>
+          <p class="g"><b>Kompetansemål</b> (matematikk etter 8. trinn): regneuttrykk og regneregler · mønstre og algebraiske uttrykk · formler. Gjelder kapittel 3A i boka.</p>
+        </div>
+        <div class="meta"><span>22. nov 2026</span><span class="go">Start →</span></div>
+      <div class="status" hidden><div class="bar"><i></i></div><span class="st"></span></div></a>
+    </li>
+    <li>
+      <a class="card" href="alg-4/" data-quiz="alg-4" data-n="18">
+        <div class="num">4</div>
+        <div>
+          <p class="t">Testprøve 4 · Formler, praktiske situasjoner og figurtall</p>
+          <p class="d">18 flervalgsoppgaver fra kapittel 3B og 3D: uttrykk og formler i praktiske situasjoner, figurtall og tallmønster.</p>
+          <p class="g"><b>Kompetansemål</b> (matematikk etter 8. trinn): mønstre og sammenhenger beskrevet med algebraiske uttrykk · formler i praktiske situasjoner. Gjelder kapittel 3B og 3D.</p>
+        </div>
+        <div class="meta"><span>22. nov 2026</span><span class="go">Start →</span></div>
+      <div class="status" hidden><div class="bar"><i></i></div><span class="st"></span></div></a>
+    </li>
   </ul>
 
   <h2>Norsk <span class="tag">8. trinn</span></h2>
@@ -162,18 +185,39 @@ footer{margin-top:40px;color:var(--muted);font-size:.85rem;border-top:1px solid 
 
   <footer>Prøvehjørnet · laget for øving hjemme</footer>
 </div>
+<script src="assets/profile.js"></script>
 <script>
-document.querySelectorAll("a.card[data-quiz]").forEach(function(a){
-  var n=+a.dataset.n,s=null;
-  try{s=JSON.parse(localStorage.getItem("prove:"+a.dataset.quiz));}catch(e){}
-  if(!s||!s.results||!s.results.length)return;
-  var done=s.results.length,fin=s.i>=n,ok=s.results.filter(function(r){return r.ok}).length;
-  var box=a.querySelector(".status"),go=a.querySelector(".go");
-  box.hidden=false;
-  box.querySelector("i").style.width=Math.min(100,done/n*100)+"%";
-  if(fin){box.classList.add("done");box.querySelector(".st").textContent="Ferdig · "+ok+" av "+n+" riktig";go.textContent="Se resultat →";}
-  else{box.querySelector(".st").textContent=done+" av "+n+" besvart";go.textContent="Fortsett →";}
-});
+(function(){
+  function render(){
+    var P=window.Prove; if(!P||!P.who()) return;
+    document.querySelectorAll("a.card[data-quiz]").forEach(function(a){
+      var id=a.dataset.quiz,n=+a.dataset.n,s=P.state(id),att=P.attempts(id);
+      var box=a.querySelector(".status"),go=a.querySelector(".go"),st=box.querySelector(".st"),bar=box.querySelector("i");
+      var done=s&&s.results?s.results.length:0,fin=done>0&&s.i>=n;
+      var best=att.reduce(function(m,x){return Math.max(m,x.score)},-1);
+      box.classList.remove("done");
+      if(fin){
+        var ok=s.results.filter(function(r){return r.ok}).length;
+        box.hidden=false;box.classList.add("done");bar.style.width="100%";
+        st.textContent="Ferdig · "+ok+" av "+n+" riktig"+(att.length>1?" · beste "+best+" · "+att.length+" forsøk":"");
+        go.textContent="Se resultat →";
+      }else if(done){
+        box.hidden=false;bar.style.width=Math.min(100,done/n*100)+"%";
+        st.textContent=done+" av "+n+" besvart"+(att.length?" · beste tidligere "+best+" av "+n:"");
+        go.textContent="Fortsett →";
+      }else if(att.length){
+        box.hidden=false;bar.style.width="0";
+        st.textContent="Beste "+best+" av "+n+" · "+att.length+" forsøk";
+        go.textContent="Ta på nytt →";
+      }else{
+        box.hidden=true;go.textContent="Start →";
+      }
+    });
+  }
+  render();
+  if(window.Prove&&window.Prove.ready) window.Prove.ready.then(render);
+  window.addEventListener("pageshow",render);
+})();
 </script>
 </body>
 </html>
