@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testprøve 4 · Formler, praktiske situasjoner og figurtall</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/quiz.js"></script>
+<script>
+
+
+/* fyrstikkrekke: figur k har k kvadrater på rad */
+const stick = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>`;
+const fyrFig = (k, ox) => {
+  let s = "";
+  for (let i = 0; i <= k; i++) s += stick(ox + i*34, 30, ox + i*34, 64);
+  for (let i = 0; i < k; i++) s += stick(ox + i*34, 30, ox + (i+1)*34, 30) + stick(ox + i*34, 64, ox + (i+1)*34, 64);
+  return s;
+};
+const fyr = `<figure><svg viewBox="0 0 440 100" role="img" aria-label="Fyrstikkfigurer: figur 1, 2 og 3 med henholdsvis 1, 2 og 3 kvadrater på rad">
+<text x="10" y="18" font-size="13" font-weight="700" fill="currentColor">Figur 1</text>${fyrFig(1, 12)}
+<text x="100" y="18" font-size="13" font-weight="700" fill="currentColor">Figur 2</text>${fyrFig(2, 102)}
+<text x="240" y="18" font-size="13" font-weight="700" fill="currentColor">Figur 3</text>${fyrFig(3, 242)}
+</svg></figure>`;
+
+/* kryss: figur k har en midtrute og k ruter i hver av de fire retningene */
+const kryssFig = (k, ox, oy, u) => {
+  let cells = [[0,0]];
+  for (let i = 1; i <= k; i++) cells.push([i,0],[-i,0],[0,i],[0,-i]);
+  return cells.map(([c,r]) => `<rect x="${ox + c*u}" y="${oy + r*u}" width="${u}" height="${u}" fill="var(--accent)" stroke="var(--paper)" stroke-width="2"/>`).join("");
+};
+const kryss = `<figure><svg viewBox="0 0 440 150" role="img" aria-label="Figur 1, 2 og 3: en midtrute med armer av ruter i fire retninger">
+<text x="8" y="14" font-size="13" font-weight="700" fill="currentColor">Figur 1</text>${kryssFig(1, 36, 56, 22)}
+<text x="130" y="14" font-size="13" font-weight="700" fill="currentColor">Figur 2</text>${kryssFig(2, 177, 74, 22)}
+<text x="290" y="14" font-size="13" font-weight="700" fill="currentColor">Figur 3</text>${kryssFig(3, 361, 74, 20)}
+</svg></figure>`;
+
+/* trapp: figur k har kolonner med 1, 2, ..., k ruter */
+const trappFig = (k, ox, oy, u) => {
+  let s = "";
+  for (let c = 0; c < k; c++) for (let r = 0; r <= c; r++) s += `<rect x="${ox + c*u}" y="${oy - r*u}" width="${u}" height="${u}" fill="var(--accent)" stroke="var(--paper)" stroke-width="2"/>`;
+  return s;
+};
+const trapp = `<figure><svg viewBox="0 0 440 120" role="img" aria-label="Figur 1, 2 og 3: trapper med henholdsvis 1, 3 og 6 ruter">
+<text x="8" y="14" font-size="13" font-weight="700" fill="currentColor">Figur 1</text>${trappFig(1, 12, 90, 24)}
+<text x="110" y="14" font-size="13" font-weight="700" fill="currentColor">Figur 2</text>${trappFig(2, 112, 90, 24)}
+<text x="240" y="14" font-size="13" font-weight="700" fill="currentColor">Figur 3</text>${trappFig(3, 242, 90, 24)}
+</svg></figure>`;
+
+quiz({
+  id: "alg-4",
+  title: "Testprøve 4 · Formler, praktiske situasjoner og figurtall",
+  sub: "Matematikk 8. trinn · kapittel 3B og 3D · flervalg · ingen hjelpemidler",
+  back: "../",
+  goalsTitle: "Resultat per tema",
+  figs: { fyr: fyr, kryss: kryss, trapp: trapp },
+  goals: {
+    uttr: "Uttrykk for praktiske situasjoner",
+    form: "Formler",
+    sett: "Sette inn tall for variabler",
+    fig: "Figurtall og tallmønster"
+  },
+  questions: [
+ {t:"Praktisk situasjon",
+  g:"uttr",
+  q:`En taxi tar 60 kr i startpris og 25 kr per kilometer. Hvilket uttrykk gir prisen for en tur på <i>k</i> kilometer?`,
+  o:[`60 + 25<i>k</i>`,`85<i>k</i>`,`60<i>k</i> + 25`,`25 + 60<i>k</i>`],
+  a:0,
+  e:`Startprisen betaler vi én gang (60). Kilometerprisen gjelder hver kilometer, så <i>k</i> km koster 25 · <i>k</i>. Til sammen 60 + 25<i>k</i>.`},
+ {t:"Praktisk situasjon",
+  g:"uttr",
+  q:`En taxi tar 60 kr i startpris og 25 kr per kilometer. Hva koster en tur på 8 km?`,
+  o:[`260`,`680`,`505`,`200`],
+  a:0,
+  e:`60 + 25 · 8 = 60 + 200 = 260 kr. Husk å gange før du legger til.`},
+ {t:"Praktisk situasjon",
+  g:"uttr",
+  q:`På kino koster en voksenbillett 120 kr og en barnebillett 80 kr. Hva koster det for 2 voksne og 3 barn?`,
+  o:[`480`,`1000`,`600`,`520`],
+  a:0,
+  e:`Uttrykket er 120<i>v</i> + 80<i>b</i>. Med <i>v</i> = 2 og <i>b</i> = 3: 120 · 2 + 80 · 3 = 240 + 240 = 480 kr.`},
+ {t:"Praktisk situasjon",
+  g:"uttr",
+  q:`Ola er <i>x</i> år. Søsteren hans er 4 år eldre, og faren er tre ganger så gammel som Ola. Hvilket uttrykk viser farens alder?`,
+  o:[`3<i>x</i>`,`<i>x</i> + 3`,`<i>x</i> + 4`,`3 + 4<i>x</i>`],
+  a:0,
+  e:`«Tre ganger så gammel» betyr 3 · <i>x</i> = 3<i>x</i>. Søsterens alder er <i>x</i> + 4.`},
+ {t:"Formel",
+  g:"form",
+  q:`Omkretsen av et rektangel er gitt ved <i>O</i> = 2<i>l</i> + 2<i>b</i>. Hva er omkretsen når <i>l</i> = 7 cm og <i>b</i> = 3 cm?`,
+  o:[`20 cm`,`21 cm`,`10 cm`,`13 cm`],
+  a:0,
+  e:`<i>O</i> = 2 · 7 + 2 · 3 = 14 + 6 = 20 cm. (21 er arealet 7 · 3, og 10 er bare 7 + 3.)`},
+ {t:"Formel",
+  g:"form",
+  q:`Strekningen er gitt ved formelen <i>s</i> = <i>v</i> · <i>t</i>, der <i>v</i> er farten og <i>t</i> er tiden. Hvor langt kjører du med 80 km/h i 2,5 timer?`,
+  o:[`200 km`,`82,5 km`,`32 km`,`2000 km`],
+  a:0,
+  e:`<i>s</i> = 80 · 2,5 = 200 km. (80 · 2 = 160 og 80 · 0,5 = 40.)`},
+ {t:"Formel",
+  g:"form",
+  q:`Temperaturen i grader Fahrenheit er gitt ved <i>F</i> = 1,8 · <i>C</i> + 32, der <i>C</i> er temperaturen i grader Celsius. Hva er <i>F</i> når <i>C</i> = −10?`,
+  o:[`14`,`50`,`−50`,`−14`],
+  a:0,
+  e:`<i>F</i> = 1,8 · (−10) + 32 = −18 + 32 = 14. Husk at 1,8 · (−10) er negativt.`},
+ {t:"Formel",
+  g:"form",
+  q:`Arealet av en trekant er gitt ved <i>A</i> = ${F("<i>g</i> · <i>h</i>",2)}, der <i>g</i> er grunnlinjen og <i>h</i> er høyden. Hva er arealet når <i>g</i> = 8 cm og <i>h</i> = 5 cm?`,
+  o:[`20 cm²`,`40 cm²`,`13 cm²`,`4 cm²`],
+  a:0,
+  e:`<i>A</i> = 8 · 5 : 2 = 40 : 2 = 20 cm². Husk å dele på 2, ellers får du arealet av et rektangel.`},
+ {t:"Verdien av uttrykk",
+  g:"sett",
+  q:`Hva er verdien av 3<i>x</i> − 2<i>y</i> hvis <i>x</i> = −2 og <i>y</i> = −5?`,
+  o:[`4`,`−16`,`−4`,`16`],
+  a:0,
+  e:`3 · (−2) − 2 · (−5) = −6 − (−10) = −6 + 10 = 4.`},
+ {t:"Verdien av uttrykk",
+  g:"sett",
+  q:`Hva er verdien av ${F("24","<i>n</i>")} + 2<i>n</i> hvis <i>n</i> = 4?`,
+  o:[`14`,`8`,`12`,`104`],
+  a:0,
+  e:`24 : 4 = 6 og 2 · 4 = 8. Da er 6 + 8 = 14. (Dele og gange før pluss.)`},
+ {t:"Figurtall",
+  g:"fig",
+  fig:"fyr",
+  q:`Figurene er bygd av fyrstikker. Hvor mange fyrstikker trenger du til figur 5?`,
+  o:[`16`,`15`,`20`,`13`],
+  a:0,
+  e:`Figur 1 har 4, figur 2 har 7 og figur 3 har 10 fyrstikker: det kommer 3 nye for hver figur. Figur 5 har 4 + 4 · 3 = 16 fyrstikker (3 · 5 + 1).`},
+ {t:"Figurtall",
+  g:"fig",
+  fig:"fyr",
+  q:`Figurene er bygd av fyrstikker. Hvilket uttrykk gir antall fyrstikker i figur nummer <i>n</i>?`,
+  o:[`3<i>n</i> + 1`,`4<i>n</i>`,`3<i>n</i>`,`<i>n</i> + 3`],
+  a:0,
+  e:`Det kommer 3 nye fyrstikker for hver figur, og vi starter med 1 ekstra. Sjekk: <i>n</i> = 1 gir 3 · 1 + 1 = 4, og <i>n</i> = 3 gir 3 · 3 + 1 = 10.`},
+ {t:"Figurtall",
+  g:"fig",
+  q:`I uttrykket 3<i>n</i> + 1 for fyrstikkfigurene: hva forteller tallet 3?`,
+  o:[`Hvor mange fyrstikker som legges til for hver nye figur`,`Hvor mange fyrstikker figur 1 har`,`Hvor mange figurer det er`,`Hvor mange fyrstikker figur 3 har`],
+  a:0,
+  e:`Tallet foran <i>n</i> er økningen fra figur til figur. Tallet 1 er det som er «med» fra starten. Figur 1 har 3 · 1 + 1 = 4 fyrstikker.`},
+ {t:"Figurtall",
+  g:"fig",
+  fig:"kryss",
+  q:`Figurene viser en kloss med fire armer som vokser. Hvor mange ruter er det i figur 4?`,
+  o:[`17`,`16`,`20`,`13`],
+  a:0,
+  e:`Figur 1 har 5 ruter, figur 2 har 9 og figur 3 har 13: det kommer 4 nye for hver figur. Figur 4 har 4 · 4 + 1 = 17 ruter.`},
+ {t:"Figurtall",
+  g:"fig",
+  fig:"kryss",
+  q:`Figurene viser en kloss med fire armer som vokser. Hvilken figur har 41 ruter?`,
+  o:[`Figur 10`,`Figur 9`,`Figur 11`,`Figur 41`],
+  a:0,
+  e:`Antall ruter er 4<i>n</i> + 1. Vi trenger 4<i>n</i> + 1 = 41, altså 4<i>n</i> = 40 og <i>n</i> = 10. Sjekk: 4 · 10 + 1 = 41.`},
+ {t:"Figurtall",
+  g:"fig",
+  fig:"trapp",
+  q:`Figurene viser trapper av ruter. Hvor mange ruter er det i figur 4?`,
+  o:[`10`,`8`,`9`,`12`],
+  a:0,
+  e:`Figur 1, 2 og 3 har 1, 3 og 6 ruter. Hvor mange som legges til øker med 1 hver gang: +2, +3, så +4. Figur 4 har 6 + 4 = 10 ruter.`},
+ {t:"Tallmønster",
+  g:"fig",
+  q:`Tallfølgen er 5, 8, 11, 14, … Hva blir tall nummer 20 i følgen?`,
+  o:[`62`,`60`,`59`,`65`],
+  a:0,
+  e:`Følgen øker med 3 hver gang, og tall nummer <i>n</i> er 3<i>n</i> + 2. Sjekk: <i>n</i> = 1 gir 5. Tall nummer 20 er 3 · 20 + 2 = 62.`},
+ {t:"Tallmønster",
+  g:"fig",
+  q:`Tallfølgen er 3, 7, 11, 15, … Hvilket uttrykk gir tall nummer <i>n</i>?`,
+  o:[`4<i>n</i> − 1`,`4<i>n</i> + 1`,`3<i>n</i>`,`<i>n</i> + 4`],
+  a:0,
+  e:`Følgen øker med 4 hver gang. Tall nummer 1 skal bli 3, og 4 · 1 − 1 = 3. Sjekk tall 2: 4 · 2 − 1 = 7.`}
+  ]
+});
+</script>
+</body>
+</html>
